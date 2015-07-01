@@ -53,18 +53,34 @@ class UserTest < ActiveSupport::TestCase
     duplicate_user = @user.dup
     duplicate_user.email = @user.email.upcase
     @user.save
-    assert_not duplicate_user.valid?
+    assert_not duplicate_user.valid?, "Address #{duplicate_user.email} should be UNIQUE"
   end
   
   test "email address should be lowercase" do
     duplicate_user = @user.dup
     duplicate_user.email = @user.email.downcase
     @user.save
-    assert duplicate_user.email == @user.email
+    assert duplicate_user.email == @user.email, "Address #{duplicate_user.email} should be LOWERCASE"
   end
   
   test "password should have a minimum lenght" do
     @user.password = @user.password_confirmation = "a" * 5
-    assert_not @user.valid?
+    assert_not @user.valid?, "Password #{@user.password} should be LONGER"
+  end
+  
+  test "password validation should accept only VALID passwords" do
+    valid_passwords = %w[] #PROBLEM
+    valid_passwords.each do |valid_password|
+      @user.password = valid_password
+      assert @user.valid?, "Password #{valid_password.inspect} should be VALID"
+    end
+  end
+  
+  test "password validation should reject INVALID passwords" do
+    invalid_passwords = %w[dsawda ajduh1 gkjnfau/ sadnun& SDEFI3 kj32146]
+    invalid_passwords.each do |invalid_password|
+      @user.password = invalid_password
+      assert_not @user.valid?, "Password #{invalid_password.inspect} should be NOTVALID"
+    end
   end
 end

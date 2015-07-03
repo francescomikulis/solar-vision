@@ -83,4 +83,8 @@ class UserTest < ActiveSupport::TestCase
       assert_not @user.valid?, "Password #{invalid_password.inspect} should be NOTVALID"
     end
   end
+  
+  test "authenticated? Should return false for a user with nil digest" do
+    assert_not @user.authenticated?('')
+  end
 end

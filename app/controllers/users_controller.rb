@@ -14,18 +14,19 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
-  
+   
   def create
-    @user = User.new(user_params) # method returns ONLY parameters we want to allow
+    @user = User.new(user_params) # method accepts ONLY parameters we want to allow
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!" # Only for 1 request
-      redirect_to @user # user_url(@user)
+    @user.send_activation_email
+    flash[:info] = "Please check your email to activate your account." # Only for 1 request
+    redirect_to root_url
     else
       render 'new'
     end
   end
   
+ 
   def edit
   end
   

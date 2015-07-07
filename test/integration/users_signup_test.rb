@@ -24,8 +24,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_difference 'User.count', 1 do
       post users_path, user: { name:  "Example User",
                                             email: "user@example.com",
-                                            password:              "Password1",
-                                            password_confirmation: "Password1" }
+                                            password:              "password",
+                                            password_confirmation: "password" }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
     user = assigns(:user)

@@ -39,21 +39,21 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
     # Invalid password & confirmation
     patch password_reset_path(user.reset_token),
           email: user.email,
-          user: { password:              "foobaz",
-                  password_confirmation: "foasvb" }
+          user: { password:              "Foobaz1",
+                  password_confirmation: "Foasvb1" }
     assert_select 'div#error_explanation'
     # Blank password
     patch password_reset_path(user.reset_token),
           email: user.email,
           user: { password:              " ",
-                  password_confirmation: "foobar" }
+                  password_confirmation: "Foobar1" }
     assert_not flash.empty?
     assert_template 'password_resets/edit'
     # Valid password and confirmation
     patch password_reset_path(user.reset_token),
           email: user.email,
-          user: { password:              "foobar",
-                  password_confirmation: "foobar" }
+          user: { password:              "Foobar1",
+                  password_confirmation: "Foobar1" }
     assert is_logged_in?
     assert_not flash.empty?
     assert_redirected_to user

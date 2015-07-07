@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
   
   def setup
     @user = User.new(name: "Example User", email: "user@example.com",
-                    password: "foobar", password_confirmation: "foobar")
+                    password: "Foobar1", password_confirmation: "Foobar1")
   end
   
   test "should be valid" do
@@ -69,7 +69,7 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "password validation should accept only VALID passwords" do
-    valid_passwords = %w[] #PROBLEM
+    valid_passwords = %w[Foobar1] #PROBLEM
     valid_passwords.each do |valid_password|
       @user.password = valid_password
       assert @user.valid?, "Password #{valid_password.inspect} should be VALID"
@@ -83,7 +83,7 @@ class UserTest < ActiveSupport::TestCase
       assert_not @user.valid?, "Password #{invalid_password.inspect} should be NOTVALID"
     end
   end
-  
+
   test "authenticated? Should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
   end

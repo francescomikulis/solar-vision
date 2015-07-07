@@ -6,7 +6,6 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
   end
 
-
   test "login with invalid information" do
     get login_path
     assert_template 'sessions/new'
@@ -46,5 +45,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   test "login withOUT remembering" do
     log_in_as(@user, remember_me: '0')
     assert_nil cookies['remember_token']
+  end
+  
+  def flash_error
+    flash.now[:danger] = "Password must match confermation"
   end
 end

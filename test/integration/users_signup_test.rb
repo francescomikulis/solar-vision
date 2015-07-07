@@ -18,6 +18,45 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_select 'div#error_explanation'
     assert_select 'div.field_with_errors'
   end
+  
+  
+  test "invalid signup information -- PASSWORD CHECK 1" do
+    get signup_path
+    assert_no_difference 'User.count' do
+      post users_path, user: { name:  "User",
+                               email: "user@invalid.com",
+                               password:              "",
+                               password_confirmation: "barich" }
+    end
+    assert_template 'users/new'
+    assert_select 'div#error_explanation'
+    assert_select 'div.field_with_errors'
+  end
+  
+  test "invalid signup information -- PASSWORD CHECK 2" do
+    get signup_path
+    assert_no_difference 'User.count' do
+      post users_path, user: { name:  "User",
+                               email: "user@invalid.com",
+                               password:              "foobar",
+                               password_confirmation: "" }
+    end
+    assert_template 'users/new'
+    assert_not flash.empty?
+  end
+  
+  test "invalid signup information -- PASSWORD CHECK 3" do
+    get signup_path
+    assert_no_difference 'User.count' do
+      post users_path, user: { name:  "User",
+                               email: "user@invalid.com",
+                               password:              "foobar",
+                               password_confirmation: "fdsfdw" }
+    end
+    assert_template 'users/new'
+    assert_not flash.empty?
+  end
+
 
   test "valid signup information" do
     get signup_path

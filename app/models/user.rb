@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
-  before_save   :downcase_email
-  before_create :create_activation_digest
+  before_save   :downcase_email, :password_confirmed
+  before_create :create_activation_digest, :password_confirmed
   validates :name,  presence: true, length: { maximum: 50 }
    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z]+[.][a-z]+\.?[a-z]+\z/i
    validates :email, presence: true, length: { maximum: 255 },
@@ -66,7 +66,15 @@ class User < ActiveRecord::Base
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
   end
-   
+  
+  def password_confirmed
+    if(self.password == self.password_confirmation)
+      return true
+    else
+      return false
+    end
+  end
+  
    private
    
       #Downcases an email

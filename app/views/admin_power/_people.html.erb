@@ -1,0 +1,11 @@
+
+  <p class="pull-left"><%= link_to user.name, user %></p>
+  <%# <%= link_to gravatar_for(user, size: 50), user %>
+   <% if current_user.admin?%>  <%# && !current_user?(user) %>
+  <p class="pull-right">
+    <%= link_to "modify", admin_tools_user_edit_path(user.id) %> <%# edit_user_path(user)%>
+    &emsp;
+    <%= link_to "delete", user_path(user), method: :delete, data: { confirm: "You sure?" }%>
+  </p>
+  <br></br>
+  <% end %>

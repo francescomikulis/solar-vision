@@ -14,6 +14,13 @@ Rails.application.routes.draw do
   post    'login'  => 'sessions#create'
   delete  'logout' => 'sessions#destroy'
   resources :users
+  
+  resources :optional_admin
+  
+  get 'admin_tools' => 'admin_power#list'
+  get 'admin_tools/user_edit' => 'admin_power#edit'
+  
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+
 end

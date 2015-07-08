@@ -1,0 +1,14 @@
+<% provide(:title, 'Administrative tools') %> 
+<h1>All Users</h1>
+
+<%= will_paginate %>
+
+<ul class="admin_power">
+  <% @admin_power.each do |totaluser| %>
+    <%= render 'admin_power/people', user: totaluser %> <%#this is equal to%>
+<%#    <%= render totaluser %> <%#THIS%>
+  <% end %>
+<%#  <%= render @users %>
+</ul>
+
+<%= will_paginate %>

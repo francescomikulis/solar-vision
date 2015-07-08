@@ -15,4 +15,28 @@ User.create!(name: "Example User",
               password_confirmation: password,
               activated:    true,
               activated_at: Time.zone.now)
+              
+# My personal accounts
+
+User.create!(name: "Francesco Mikulis",
+              email: "francescomikulis@yahoo.com",
+              password:              "foobar",
+              password_confirmation: "foobar",
+              admin: true,
+              activated:    true,
+              activated_at: Time.zone.now)
+User.create!(name: "Francesco Mikulis",
+              email: "francescomikulis@gmail.com",
+              password:              "foobar",
+              password_confirmation: "foobar",
+              admin: true,
+              activated:    true,
+              activated_at: Time.zone.now)
+User.create!(name: "Francesco Mikulis",
+              email: "francescomikulis@live.com",
+              password:              "foobar",
+              password_confirmation: "foobar",
+              admin: true,
+              activated:    true,
+              activated_at: Time.zone.now)
 end

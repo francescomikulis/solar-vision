@@ -68,12 +68,9 @@ class User < ActiveRecord::Base
   end
   
   def password_confirmed
-    if(self.password == self.password_confirmation)
-      return true
-    else
-      return false
-    end
+    (self.password == self.password_confirmation)
   end
+  
   
    private
    

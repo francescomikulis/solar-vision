@@ -17,19 +17,19 @@ class UsersController < ApplicationController
    
   def create
     @user = User.new(user_params) # method accepts ONLY parameters we want to allow
-    if (@user.save && (user_params[:password] == user_params[:password_confirmation]))
-    @user.send_activation_email
-    flash[:info] = "Please check your email to activate your account." # Only for 1 request
-    redirect_to root_url
+    if @user.save
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account." # Only for 1 request
+      redirect_to root_url
     else
+      errors = ["Password must MATCH Confirmation", "Password can't be BLANK"]
+      flash.now[:danger] = errors.join("<br/>").html_safe
       render 'new'
-      if (user_params[:password] != user_params[:password_confirmation])
-        flash.now[:danger] = "Password must match Confirmation"
-      end
     end
   end
   
  
+
   def edit
   end
   
@@ -39,10 +39,9 @@ class UsersController < ApplicationController
       flash[:success] = "Profile updated"
       redirect_to @user
     else
+      errors = ["Password must MATCH Confirmation", "Password can't be BLANK"]
+      flash.now[:danger] = errors.join("<br/>").html_safe
       render 'edit'
-      if (user_params[:password] != user_params[:password_confirmation])
-        flash.now[:danger] = "Password must match Confirmation"
-      end
     end
   end
   
@@ -50,10 +49,6 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
     redirect_to users_url
-  end
-  
-  def flash_error
-    flash.now[:danger] = "Password must match confermation"
   end
   
   private

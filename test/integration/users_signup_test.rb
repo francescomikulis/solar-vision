@@ -29,8 +29,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password_confirmation: "barich" }
     end
     assert_template 'users/new'
-    assert_select 'div#error_explanation'
-    assert_select 'div.field_with_errors'
+    assert_not flash.empty?
   end
   
   test "invalid signup information -- PASSWORD CHECK 2" do

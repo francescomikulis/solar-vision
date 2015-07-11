@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
-  before_save   :downcase_email, :password_confirmed
-  before_create :create_activation_digest, :password_confirmed
+  before_save   :downcase_email
+  before_create :create_activation_digest
   validates :name,  presence: true, length: { maximum: 50 }
    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z]+[.][a-z]+\.?[a-z]+\z/i
    validates :email, presence: true, length: { maximum: 255 },
@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
     UserMailer.account_activation(self).deliver_now
   end
   
+  # Addes attribute reset digest token
   def create_reset_digest
     self.reset_token = User.new_token
     update_attribute(:reset_digest, User.digest(reset_token))
@@ -67,10 +68,21 @@ class User < ActiveRecord::Base
     reset_sent_at < 2.hours.ago
   end
   
+  # Returns true if password matches it's confirmation
   def password_confirmed
     (self.password == self.password_confirmation)
   end
   
+  # Returns true if user is an admin
+  def admin?
+    self.admin
+  end
+  
+  # Returns true if account was created 2 hours ago and email was not opened
+  def account_expired(id)
+    user = User.find(id)
+    (user.activation_email_sent < 2.hours.ago) && (!user.activated?)
+  end
   
    private
    

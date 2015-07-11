@@ -3,7 +3,8 @@ User.create!(name: "Example User",
               password:              "foobar",
               password_confirmation: "foobar",
               admin: true,
-              activated:    true,
+              activation_email_sent: Time.zone.now,
+              activated: true,
               activated_at: Time.zone.now)
 99.times do |n|
   name = Faker::Name.name
@@ -13,7 +14,8 @@ User.create!(name: "Example User",
               email:                 email,
               password:              password,
               password_confirmation: password,
-              activated:    true,
+              activation_email_sent: Time.zone.now,
+              activated: true,
               activated_at: Time.zone.now)
               
 # My personal accounts
@@ -23,20 +25,23 @@ User.create!(name: "Francesco Mikulis",
               password:              "foobar",
               password_confirmation: "foobar",
               admin: true,
-              activated:    true,
+              activation_email_sent: Time.zone.now,
+              activated: true,
               activated_at: Time.zone.now)
 User.create!(name: "Francesco Mikulis",
               email: "francescomikulis@gmail.com",
               password:              "foobar",
               password_confirmation: "foobar",
               admin: true,
-              activated:    true,
+              activation_email_sent: Time.zone.now,
+              activated: true,
               activated_at: Time.zone.now)
 User.create!(name: "Francesco Mikulis",
               email: "francescomikulis@live.com",
               password:              "foobar",
               password_confirmation: "foobar",
               admin: true,
-              activated:    true,
+              activation_email_sent: Time.zone.now,
+              activated: true,
               activated_at: Time.zone.now)
 end

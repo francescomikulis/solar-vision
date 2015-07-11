@@ -19,7 +19,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params) # method accepts ONLY parameters we want to allow
     if @user.save
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account." # Only for 1 request
+      @user.update_attributes(activation_email_sent: Time.zone.now)
+      flash[:info] = "Please check your email to activate your account.
+        If you do not activate it with the link within 2 hours, it will expire." # Only for 1 request
       redirect_to root_url
     else
       errors = ["Password must MATCH Confirmation", "Password can't be BLANK"]
@@ -27,19 +29,19 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
-  
- 
 
   def edit
   end
   
   def update
-    if (@user.update_attributes(user_params) &&
-    (user_params[:password] == user_params[:password_confirmation]))
+    if @user.update_attributes(user_params) && accept_password
+      if (blank_password)
+        @user.update_attributes(update_no_pass_params)
+      end
       flash[:success] = "Profile updated"
       redirect_to @user
     else
-      errors = ["Password must MATCH Confirmation", "Password can't be BLANK"]
+      errors = ["Password must MATCH Confirmation"]
       flash.now[:danger] = errors.join("<br/>").html_safe
       render 'edit'
     end
@@ -53,9 +55,21 @@ class UsersController < ApplicationController
   
   private
   
+    def accept_password
+      params[:password] == params[:password_confirmation]
+    end
+    
+    def blank_password
+      ((params[:password] == params[:password_confirmation]) == '')
+    end
+  
     def user_params
       params.require(:user).permit(:name, :email, :password,
                                     :password_confirmation)
+    end
+    
+    def update_no_pass_params
+      params.require(:user).permit(:name, :email)
     end
     
     # Before filters.

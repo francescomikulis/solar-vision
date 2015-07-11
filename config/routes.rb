@@ -17,8 +17,11 @@ Rails.application.routes.draw do
   
   resources :optional_admin
   
-  get 'admin_tools' => 'admin_power#list'
-  get 'admin_tools/user_edit' => 'admin_power#edit'
+  get 'admin_tools'             =>'admin_power#list'
+  get 'admin_tools/user'        =>'admin_power#edit'
+  get 'admin_tools/makeAdmin'   =>'admin_power#makeAdmin'
+  get 'admin_tools/delAdmin'    =>'admin_power#delAdmin'
+  get 'admin_tools/cleanup'     =>'admin_power#cleanup'
   
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]

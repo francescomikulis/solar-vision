@@ -1,9 +1,13 @@
 <% provide(:title, 'Administrative tools') %> 
+<br></br>
+<p class="center"><%= link_to "Clean the Database", admin_tools_cleanup_path %></p>
+<br></br>
 <h1>All Users</h1>
+
 
 <%= will_paginate %>
 
-<ul class="admin_power">
+<ul>
   <% @admin_power.each do |totaluser| %>
     <%= render 'admin_power/people', user: totaluser %> <%#this is equal to%>
 <%#    <%= render totaluser %> <%#THIS%>

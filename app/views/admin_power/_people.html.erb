@@ -1,11 +1,22 @@
 
-  <p class="pull-left"><%= link_to user.name, user %></p>
+  <p class="pull-left">
+    <%= id_of_clicked_user(user) %>
+    <%= link_to user.name, user %></p>
   <%# <%= link_to gravatar_for(user, size: 50), user %>
    <% if current_user.admin?%>  <%# && !current_user?(user) %>
   <p class="pull-right">
-    <%= link_to "modify", admin_tools_user_edit_path(user.id) %> <%# edit_user_path(user)%>
+    <%= link_to "modify", edit_user_url(id_of_clicked_user(user)) %>
+    &emsp;
+    <% if user.id!=current_user.id %>
+      <% if user.admin?  %>
+        <%= link_to "del admin", admin_tools_delAdmin_path(id_of_clicked_user(user)) %>
+      <% else %>
+        <%= link_to "make admin", admin_tools_makeAdmin_path(id_of_clicked_user(user)) %>
+      <% end %>
+    <% end %>
     &emsp;
     <%= link_to "delete", user_path(user), method: :delete, data: { confirm: "You sure?" }%>
   </p>
+  
   <br></br>
   <% end %>

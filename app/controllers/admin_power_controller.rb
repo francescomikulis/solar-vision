@@ -47,7 +47,7 @@ class AdminPowerController < ApplicationController
   def cleanup
     @users = User.all
     @users.each do |totaluser|
-      if totaluser.account_expired(totaluser.id)
+      if (totaluser.activation_email_sent < 2.hours.ago) && (!totaluser.activated?)
         destroy(totaluser.id)
       end
     end
@@ -56,7 +56,7 @@ class AdminPowerController < ApplicationController
   def destroy(id)
     User.find(id).destroy
     flash[:success] = "Users were deleted"
-    redirect_to users_url
+    redirect_to admin_tools_url
   end
   
   private

@@ -79,10 +79,10 @@ class User < ActiveRecord::Base
   end
   
   # Returns true if account was created 2 hours ago and email was not opened
-  def account_expired(id)
-    user = User.find(id)
-    (user.activation_email_sent < 2.hours.ago) && (!user.activated?)
-  end
+  #def account_expired(id)
+  #  user = User.find(id)
+  #  (user.activation_email_sent < 2.hours.ago) && (!user.activated?)
+  #end
   
    private
    

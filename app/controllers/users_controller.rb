@@ -25,8 +25,11 @@ class UsersController < ApplicationController
         If you do not activate it with the link within 2 hours, it will expire." # Only for 1 request
       redirect_to root_url
     else
-      errors = ["Password must MATCH Confirmation", "Password can't be BLANK"]
-      flash.now[:danger] = errors.join("<br/>").html_safe
+      # Bug with error reports ovverrided
+      if (params[:user][:password] == '' && params[:user][:password_confirmation] != '')
+        errors = ["Password can't be BLANK", "Password must MATCH Confirmation"]
+        flash.now[:danger] = errors.join("<br/>").html_safe
+      end
       render 'new'
     end
   end
@@ -42,8 +45,11 @@ class UsersController < ApplicationController
       flash[:success] = "Profile updated"
       redirect_to @user
     else
-      errors = ["Password must MATCH Confirmation"]
-      flash.now[:danger] = errors.join("<br/>").html_safe
+      # Bug with error reports ovverrided
+      if (params[:user][:password] == '' && params[:user][:password_confirmation] != '')
+        errors = ["Password can't be BLANK", "Password must MATCH Confirmation"]
+        flash.now[:danger] = errors.join("<br/>").html_safe
+      end
       render 'edit'
     end
   end

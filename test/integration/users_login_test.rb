@@ -48,6 +48,6 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   end
   
   def flash_error
-    flash.now[:danger] = "Password must match confermation"
+    flash.now[:danger] = "Password must match confirmation"
   end
 end

@@ -1,14 +1,33 @@
-<div class="center jumbotron">
-  <h1>Welcome to the Sample App</h1>
-  <h2>This is the HOME page.</h2>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-  <p>
-    <FONT COLOR="#FF0000">This is the HOME page for Francesco's Work of</FONT>
-    <FONT COLOR="#0000FF">Today</FONT>
-    <FONT COLOR="#FF0000">!!</FONT>
-    <br></br>
-  </p>
-</div>
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <%= render 'shared/user_info' %>
+      </section>
+      <section class="user_info">
+        <%= render 'shared/micropost_form' %>
+      </section>
+    </aside>
+    <div class="col-md-8">
+      <h3>Micropost Feed</h3>
+        <%= render 'shared/feed' %>
+    </div>
+  </div>
+<% else %>
 
-<!--   <%=link_to image_tag("Pic.jpg", alt: "My logo"),
-'http://xn--pc-vl9ck29k.net/img/2880x1800/pc_wallpaper_2880x1800_00006.jpg' %>  -->
+  <div class="center jumbotron">
+    <h1>Welcome to the Sample App</h1>
+    <h2>This is the HOME page.</h2>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    <p>
+      <FONT COLOR="#FF0000">This is the HOME page for Francesco's Work of</FONT>
+      <FONT COLOR="#0000FF">Today</FONT>
+      <FONT COLOR="#FF0000">!!</FONT>
+      <br></br>
+    </p>
+  </div>
+  
+  <!--   <%=link_to image_tag("Pic.jpg", alt: "My logo"),
+  'http://xn--pc-vl9ck29k.net/img/2880x1800/pc_wallpaper_2880x1800_00006.jpg' %>  -->
+  
+<% end %>

@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
@@ -78,11 +79,12 @@ class User < ActiveRecord::Base
     self.admin
   end
   
-  # Returns true if account was created 2 hours ago and email was not opened
-  #def account_expired(id)
-  #  user = User.find(id)
-  #  (user.activation_email_sent < 2.hours.ago) && (!user.activated?)
-  #end
+  # Defines a proto-feed.
+  # See "following-users" for the full implementation.
+  def feed
+    Micropost.where("user_id = ?", id)
+    
+  end
   
    private
    

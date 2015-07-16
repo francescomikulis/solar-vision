@@ -1,3 +1,5 @@
+# Hardcodes users
+
 User.create!(name: "Example User",
               email: "example@railstutorial.org",
               password:              "foobar",
@@ -36,7 +38,7 @@ User.create!(name: "Francesco Mikulis",
 
 99.times do |n|
   name = Faker::Name.name
-  email = "example-#{n+1}@railstutorial.org"
+  email = "example-#{n+4}@railstutorial.org"
   password = "password"
   User.create!(name:                 name,
               email:                 email,
@@ -48,8 +50,17 @@ User.create!(name: "Francesco Mikulis",
 
 end
 
+# Microposts
 users = User.order(:created_at).take(6)
 50.times do
   content = Faker::Lorem.sentence(5)
   users.each { |user| user.microposts.create!(content: content) }
 end
+
+# Following relationships
+users = User.all
+user = users.first
+following = users[2..50]
+followers = users[3..40]
+following.each { |single_followed_user| user.follow(single_followed_user) }
+followers.each { |single_follower_user| single_follower_user.follow(user) }

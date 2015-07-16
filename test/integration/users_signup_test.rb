@@ -41,7 +41,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password_confirmation: "" }
     end
     assert_template 'users/new'
-    assert_not flash.empty?
+    assert_select 'div#error_explanation'
+    assert_select 'div.field_with_errors'
   end
   
   test "invalid signup information -- PASSWORD CHECK 3" do
@@ -53,7 +54,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password_confirmation: "fdsfdw" }
     end
     assert_template 'users/new'
-    assert_not flash.empty?
+    assert_select 'div#error_explanation'
+    assert_select 'div.field_with_errors'
   end
 
 

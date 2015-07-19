@@ -14,4 +14,10 @@ class StaticPagesController < ApplicationController
   
   def contact
   end
+  
+  def programma
+  end
+  
+  def esercizi
+  end
 end

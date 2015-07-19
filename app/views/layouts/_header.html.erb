@@ -1,8 +1,11 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "sample app", root_path, id: "logo" %> <!--#root_url-->
+    <%= link_to "Home Page", root_path, id: "logo" %> <!--#root_url-->
     <nav>
       <ul class="nav navbar-nav navbar-right">
+        
+        <li><%= link_to "Programma recupero",   programma_path %></li>
+        <li><%= link_to "Esercizi informatica", esercizi_path %></li>
         
         <% if logged_in? && current_user.admin? %>
         <li><%= link_to "Playground", optional_admin_path(current_user) %></li>

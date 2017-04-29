@@ -30,9 +30,14 @@ textarea {
 
 .center {
   text-align: center;
-  h1 {
-  margin-bottom: 60px;
-  }
+  //h1 {
+  //margin-bottom: 60px;
+  //}
+}
+
+header {
+  padding-bottom: 20px;
+  
 }
 
 /* MINE */
@@ -64,6 +69,34 @@ h2 {
   color: $gray-light;
 }
 
+h4 {
+  font-size: 1.3em;
+  letter-spacing: 0px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: black;
+  a:hover {
+    background-color: white;
+    color: black;
+  }
+  a:visited {
+    background-color: white;
+    color: black;
+  }
+}
+
+
+
+h7 {
+  font-size: 1.2em;
+  letter-spacing: 0px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: black;
+}
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
@@ -91,18 +124,14 @@ p {
 /* footer */
 
 footer {
-  margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $gray-medium-light;
-  color: $gray-light;
+  //border-top: 1px solid $gray-medium-light;
+  color: black;
   a {
-    color: $gray;
+    color: black;
     &:hover {
-      color: $gray-darker;
+      color: black;
     }
-  }
-  small {
-    float: left;
   }
   ul {
     float: right;
@@ -169,7 +198,7 @@ aside {
     float: left;
     padding: 0 10px;
     border-left: 1px solid $gray-lighter;
-    color: gray;
+    //color: gray;
     &:first-child {
       padding-left: 0;
       border: 0;
@@ -307,4 +336,27 @@ span.picture {
   input {
     border: 0;
   }
+}
+
+.aboutparagrpah {
+  text-align: center;
+}
+
+.Sun {
+  padding-bottom: 2em;
+}
+
+.field {
+  font-size: 130%;
+}
+
+.NameText {
+  width: 50%;
+}
+
+.TextInputs {
+  border-style: solid;
+  background-color: #eeeeee;
+  border-width: 1em;
+  padding: 3em;
 }

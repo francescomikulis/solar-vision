@@ -1,3 +1,4 @@
+
 <% if logged_in? %>
   <div class="row">
     <aside class="col-md-4">
@@ -19,18 +20,11 @@
 <% else %>
 
   <div class="center jumbotron">
-    <h1>Welcome to the Sample App</h1>
-    <h2>This is the HOME page.</h2>
+    <h1>Welcome to our Solar Vision</h1>
+    <div class="Sun">
+      <%= image_tag "Sun.jpeg", :alt => "rss feed", :size => '250x200'%>
+    </div>
+    <%= link_to "Log in!", login_path, class: "btn btn-lg btn-primary" %>
     <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-    <p>
-      <FONT COLOR="#FF0000">This is the HOME page for Francesco's Work of</FONT>
-      <FONT COLOR="#0000FF">Today</FONT>
-      <FONT COLOR="#FF0000">!!</FONT>
-      <br></br>
-    </p>
   </div>
-  
-  <!--   <%=link_to image_tag("Pic.jpg", alt: "My logo"),
-  'http://xn--pc-vl9ck29k.net/img/2880x1800/pc_wallpaper_2880x1800_00006.jpg' %>  -->
-  
 <% end %>

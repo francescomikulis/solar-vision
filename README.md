@@ -1,5 +1,8 @@
-# Ruby on Rails Tutorial: sample application
+# Solar Vision: NASA project
 
-This is the sample app for the Ruby on Rails Tutorial
-http://www.railstutorial.org/
-by Francesco
+These are the people that worked on the project:
+Kristian Comer
+Dan Esposito
+Jackson Lucier
+Francesco Alessandro Stefano Mikulis-Borsoi
+Charlie Nitschelm

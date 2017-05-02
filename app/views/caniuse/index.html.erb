@@ -443,6 +443,15 @@ $('document').ready(function(){
         });
         
         $('.PowerBar').appendTo('body')
+        
+        // With JQuery
+        $('#ex1').slider({
+        	formatter: function(value) {
+        		return 'Current value: ' + value;
+        	}
+        });
+        
+        
 });
 
 
@@ -512,6 +521,9 @@ rails server -p 8080 -b 0.0.0.0
 <hr>
 <h3 class="center">Sun Coefficent</h3>
 <h5 id="demo" class="center"></h5>
+<div class="center">
+ <input class="center" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="24" data-slider-step=".5" data-slider-value="12"/>
+</div>
 <hr>
 <h3 class="center">Panel Max Output</h3>
 <h5 class="center"><span id="calculated-power"></span> Watts</h5>

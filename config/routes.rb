@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :appliances
   resources :panels
   root                'static_pages#home' # Controller#Action <!--get 'static_pages/home'-->
   get    'help'    => 'static_pages#help' #'static_pages/help'
@@ -6,6 +7,10 @@ Rails.application.routes.draw do
   get    'contact' => 'static_pages#contact'
   get    'geolocation'=>'static_pages#geolocation'
   get    'index' =>'static_pages#index'
+  get    'analysis' =>'static_pages#analysis'
+  get    'howitworks' =>'static_pages#howitworks'
+  
+  get    'caniuse' =>'caniuse#index'
   
   get    'signup'  => 'users#new'
   get    'login'   => 'sessions#new'

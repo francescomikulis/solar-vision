@@ -1,0 +1,34 @@
+<% provide(:title, "Appliances") %>
+
+<h1>Listing Appliances</h1>
+
+<table class="panelchart">
+  <thead>
+    <tr>
+      <th class="TableHeads">Name</th>
+      <th class="TableHeads">Power(W)</th>
+      <th class="TableHeads">Avg Time (Min)</th>
+      <th class="TableHeads">All Day</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @appliances.each do |appliance| %>
+      <tr>
+        <td class="NamePower"><%= link_to appliance.name, appliance %></td>
+        <td class="NamePower"><%= appliance.power %></td>
+        <td class="NamePower"><%= appliance.average_time %></td>
+        <td class="NamePower"><%= appliance.all_day %></td>
+        <td class="NamePower"><%= link_to '', edit_appliance_path(appliance), class: "fa fa-pencil" %></td>
+        <td class="NamePower"><%= link_to '', appliance, method: :delete, data: { confirm: 'Are you sure?' }, class:"fa fa-trash" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<div class="center">
+  <a class="btn btn-info btn-lg" href="appliances/new">
+    New Appliance
+  </a>
+</div>

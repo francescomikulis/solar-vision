@@ -1,3 +1,25 @@
+<%# provide(:title, "Home") %>
+
+<style>
+    body {
+      color:white;
+      background: url('/assets/Mars.jpg') no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    
+    .navbar-inverse, .footer {
+      background-color:rgba(0,0,0,.3);
+    };
+    
+    @media only screen and (max-width: 1000px) {
+      body {
+        background-size: canvas;
+      }
+    }
+</style>
 
 <% if logged_in? %>
   <div class="row">
@@ -18,13 +40,68 @@
     </div>
   </div>
 <% else %>
-
-  <div class="center jumbotron">
-    <h1>Welcome to our Solar Vision</h1>
-    <div class="Sun">
-      <%= image_tag "Sun.jpeg", :alt => "rss feed", :size => '250x200'%>
+  <div class="center">
+    <div class="row center">
+      <h1 class="white_shadow center">Welcome to Solar Vision</h1>
+      <%#= link_to "Log in!", login_path, class: "btn btn-lg btn-primary" %>
+      <%#= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+      <h2 class="center bold white_shadow">
+        Our Vision: Your Reality!
+      </h2>
     </div>
-    <%= link_to "Log in!", login_path, class: "btn btn-lg btn-primary" %>
-    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
   </div>
+  
+  
+  <div class="row center">
+    <div class="col-md-4"></div>
+    <div class="col-xs-12 col-md-4">
+        <a class="btn btn-info btn-lg index_panel home_panel" href="/panels.html">
+            Panels
+        </a>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+    
+  <div class="row center">
+    <div class="col-md-4"></div>
+      <div class="col-xs-12 col-md-4">
+        <a class="btn btn-info btn-lg index_panel home_panel" href="/appliances.html">
+            Appliances
+        </a>
+      </div>
+    <div class="col-md-4"></div>
+  </div>
+    
+  <div class="row center">
+    <div class="col-md-4"></div>
+      <div class="col-xs-12 col-md-4">
+        <a class="btn btn-info btn-lg index_panel home_panel" href="/caniuse.html">
+            Can I Use?
+        </a>
+      </div>
+    <div class="col-md-4"></div>
+  </div>
+    
+  <div class="row center">
+    <div class="col-md-4"></div>
+      <div class="col-xs-12 col-md-4">
+        <a class="btn btn-info btn-lg index_panel home_panel" href="/analysis.html">
+            Analysis
+        </a>
+      </div>
+    <div class="col-md-4"></div>
+  </div>
+    
+  <div class="row center">
+    <div class="col-md-4"></div>
+      <div class="col-xs-12 col-md-4">
+        <a class="btn btn-info btn-lg index_panel home_panel center" href="/howitworks.html">
+            How It Works
+        </a>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+  
+  
 <% end %>

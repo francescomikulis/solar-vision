@@ -1,36 +1,61 @@
+<script>
+  /* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
 <header class="navbar-fixed-top  navbar-inverse">
-  <p>
-    <div style="float: left;">
-      <%= link_to "Solar Vision", root_path, id: "logo" %> <!--#root_url-->
+  
+  
+  <% if logged_in? %>
+    <li><%= link_to "Users", users_path %></li>
+    <li><%= link_to "Profile", current_user %></li>
+    <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+    <% if current_user.admin? %>
+      <li><%= link_to "Administrative Tools", admin_tools_path %></li>
+    <% end %>
+    <%= link_to "Log out", logout_path, method: "delete" %>
+  <% end %>
+
+  
+  <div class="header_title">
+  <!-- Use any element to open the sidenav -->
+  <div class="pad_left">
+    <span class="selector fa fa-bars fa-1x white_bars" aria-hidden="true" onclick="openNav()"></span>
+  </div>
+    <div class="pad_left">
+      <%= link_to "SOLAR VISION", root_path %>
     </div>
-    
-    <div style="float: right;">
-      <%= link_to "INDEX", index_path, id: "logo" %>
+  
+    <div class="pad_right">
+      <%= link_to "MY ACCOUNT", index_path %>
     </div>
+  </div>
     
     <div style="float: clear"></div>
-    
           
-          <%#= link_to "Esercizi informatica", programma_path %>
-          
-          
-          <!--<%# if logged_in? && current_user.admin? %>-->
-          <!--<li><%#= link_to "Playground", optional_admin_path(current_user) %></li>-->
-          <!--<%# end %>-->
-          
-          <!--<li><%#= link_to "Home",   root_path %></li>-->
-          <!-- <li>< # %= link_to "Help",   help_path %></li> -->
-          
-          <!--<%# if logged_in? %>-->
-          <!--  <li><%#= link_to "Users", users_path %></li>-->
-          <!--      <li><%#= link_to "Profile", current_user %></li>-->
-          <!--      <li><%#= link_to "Settings", edit_user_path(current_user) %></li>-->
-          <!--      <%# if current_user.admin? %>-->
-          <!--      <li><%#= link_to "Administrative Tools", admin_tools_path %></li>-->
-          <!--      <%# end %>-->
-          <!--        <%#= link_to "Log out", logout_path, method: "delete" %>-->
-          <!--<%# else %>-->
-          <!--  <li><%#= link_to "Log in", login_path %></li>-->
-          <!--<%# end %>-->
-  </p>           
+  </div>
 </header>
+
+
+
+<div id="mySidenav" class="sidenav">
+  
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="/panels">Panels</a>
+  <a href="/appliances">Appliances</a>
+  <a href="/caniuse">Can I Use?</a>
+  <a href="/analysis">Analysis</a>
+  <a href="/howitworks">How It Works</a>
+  </div>
+
+  
+
+  <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+  <div id="main">

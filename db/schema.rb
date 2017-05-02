@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429195043) do
+ActiveRecord::Schema.define(version: 20170429231507) do
+
+  create_table "appliances", force: :cascade do |t|
+    t.string   "name"
+    t.float    "power"
+    t.integer  "average_time"
+    t.boolean  "all_day"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "address"
@@ -37,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170429195043) do
     t.float    "power"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "tracking"
   end
 
   create_table "relationships", force: :cascade do |t|

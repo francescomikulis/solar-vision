@@ -1,0 +1,28 @@
+<!-- <p id="notice"><%= notice %></p> -->
+
+  <p>
+    <h1>
+      <strong>Name:</strong>
+      <%= @appliance.name %>
+    </h1>
+</p>
+
+<p class="NamePower">
+  <strong>Power:</strong>
+  <%= @appliance.power %>
+</p>
+
+<p class="NamePower">
+  <strong>Average time:</strong>
+  <%= @appliance.average_time %>
+</p class="NamePower">
+
+<p class="NamePower">
+  <strong>All day:</strong>
+  <%= @appliance.all_day %>
+</p>
+
+<div class="center">
+  <%= link_to 'Edit', edit_appliance_path(@appliance) %> |
+  <%= link_to 'Back', appliances_path %>
+</div> 

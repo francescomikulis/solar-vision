@@ -1,14 +1,23 @@
-<p id="notice"><%= notice %></p>
+<!-- <p id="notice"><%#= notice %></p> -->
 
 <p>
-  <strong>Name:</strong>
-  <%= @panel.name %>
+  <h1>
+    <strong>Panel:</strong>
+    <%= @panel.name %>
+  </h1>
 </p>
 
-<p>
-  <strong>Power:</strong>
+<p class="NamePower">
+  <strong>Rated Watts:</strong>
   <%= @panel.power %>
 </p>
 
-<%= link_to 'Edit', edit_panel_path(@panel) %> |
-<%= link_to 'Back', panels_path %>
+<p class="NamePower">
+  <strong>Tracking:</strong>
+  <%= @panel.tracking %>
+</p>
+
+<div class="center">
+  <%= link_to 'Edit', edit_panel_path(@panel) %> |
+  <%= link_to 'Back', panels_path %>
+</div>

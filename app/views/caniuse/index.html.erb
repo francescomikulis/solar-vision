@@ -1,0 +1,562 @@
+<% provide(:title, "Can I Use?") %>
+
+<script>
+function getSun(){
+    //Javascript code for E (efficiency coefficient) 
+  var date = new Date(); 
+  var month = date.getMonth() + 1; 
+  var hours = date.getHours(); 
+  var minutes = date.getMinutes() / 60; 
+  var time = hours + minutes; 
+  var sunCoeff; //this is the value we are solving for 
+  var timeArray = [13]; 
+  switch (month) { 
+      case 1: 
+          //jan 
+          timeArray[0] = 7; 
+          timeArray[1] = 7.9166; 
+          timeArray[2] = 8.833; 
+          timeArray[3] = 9.75; 
+          timeArray[4] = 10.66; 
+          timeArray[5] = 11.5833; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.4166 + 12; 
+          timeArray[8] = 2.33 + 12; 
+          timeArray[9] = 3.25 + 12; 
+          timeArray[10] = 4.166 + 12; 
+          timeArray[11] = 5.4166 + 12; 
+          timeArray[12] = 6 + 12; 
+          break; 
+      case 2: 
+          //feb 
+          timeArray[0] = 7; 
+          timeArray[1] = 7.95; 
+          timeArray[2] = 8.9; 
+          timeArray[3] = 9.85; 
+          timeArray[4] = 10.8; 
+          timeArray[5] = 11.75; 
+          timeArray[6] = 12.75; 
+          //add 12 to values below 
+          timeArray[7] = 1.6166 + 12; 
+          timeArray[8] = 2.566 + 12; 
+          timeArray[9] = 3.51 + 12; 
+          timeArray[10] = 4.466 + 12; 
+          timeArray[11] = 5.4166 + 12; 
+          timeArray[12] = 6.25 + 12; 
+          break; 
+  case 3: 
+          //march 
+          timeArray[0] = 6.75; 
+          timeArray[1] = 7.733; 
+          timeArray[2] = 8.7166; 
+          timeArray[3] = 9.7; 
+          timeArray[4] = 10.6833; 
+          timeArray[5] = 11.66; 
+          timeArray[6] = 12.75; 
+          //add 12 to values below 
+          timeArray[7] = 1.733 + 12; 
+          timeArray[8] = 2.7166 + 12; 
+          timeArray[9] = 3.7 + 12; 
+          timeArray[10] = 4.6833 + 12; 
+          timeArray[11] = 5.66 + 12; 
+          timeArray[12] = 6.5 + 12; 
+          break; 
+  case 4: 
+          //april 
+          timeArray[0] = 6.5; 
+          timeArray[1] = 7.533; 
+          timeArray[2] = 8.566; 
+          timeArray[3] = 9.6; 
+          timeArray[4] = 10.633; 
+          timeArray[5] = 11.66; 
+          timeArray[6] = 12.75; 
+          //add 12 to values below 
+          timeArray[7] = 1.7833 + 12; 
+          timeArray[8] = 2.8166 + 12; 
+          timeArray[9] = 3.85 + 12; 
+          timeArray[10] = 4.8833 + 12; 
+          timeArray[11] = 5.9166 + 12; 
+          timeArray[12] = 6.75 + 12; 
+          break; 
+  case 5: 
+          //may 
+          timeArray[0] = 6; 
+          timeArray[1] = 7.0833; 
+          timeArray[2] = 8.166; 
+          timeArray[3] = 9.25; 
+          timeArray[4] = 10.33; 
+          timeArray[5] = 11.4166; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.5833 + 12; 
+          timeArray[8] = 2.66 + 12; 
+          timeArray[9] = 3.75 + 12; 
+          timeArray[10] = 4.833 + 12; 
+          timeArray[11] = 5.9166 + 12; 
+          timeArray[12] = 7 + 12; 
+          break; 
+  case 6: 
+          //june 
+          timeArray[0] = 5.75; 
+          timeArray[1] = 6.866; 
+          timeArray[2] = 7.9833; 
+          timeArray[3] = 9.1; 
+          timeArray[4] = 10.2166; 
+          timeArray[5] = 11.33; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.6166 + 12; 
+          timeArray[8] = 2.733 + 12; 
+          timeArray[9] = 3.85 + 12; 
+          timeArray[10] = 4.966 + 12; 
+          timeArray[11] = 6.0833 + 12; 
+          timeArray[12] = 7 + 12; 
+          break; 
+  case 7: 
+          //july 
+          timeArray[0] = 6; 
+          timeArray[1] = 7.1166; 
+          timeArray[2] = 8.233; 
+          timeArray[3] = 9.33; 
+          timeArray[4] = 10.466; 
+          timeArray[5] = 11.5833; 
+          timeArray[6] = 12.75; 
+          //add 12 to values below 
+          timeArray[7] = 1.866 + 12; 
+          timeArray[8] = 2.9833 + 12; 
+          timeArray[9] = 4.1 + 12; 
+          timeArray[10] = 5.2166 + 12; 
+          timeArray[11] = 6.33 + 12; 
+          timeArray[12] = 7.25 + 12; 
+          break; 
+  case 8: 
+          //aug 
+          timeArray[0] = 6; 
+          timeArray[1] = 7.1166; 
+          timeArray[2] = 8.233; 
+          timeArray[3] = 9.33; 
+          timeArray[4] = 10.466; 
+          timeArray[5] = 11.5833; 
+          timeArray[6] = 12.75; 
+          //add 12 to values below 
+          timeArray[7] = 1.866 + 12; 
+          timeArray[8] = 2.9833 + 12; 
+          timeArray[9] = 4.1 + 12; 
+          timeArray[10] = 5.2166 + 12; 
+          timeArray[11] = 6.33 + 12; 
+          timeArray[12] = 7.25 + 12; 
+          break; 
+  case 9: 
+          //sept 
+          timeArray[0] = 6.25; 
+          timeArray[1] = 7.3166; 
+          timeArray[2] = 8.3833; 
+          timeArray[3] = 9.45; 
+          timeArray[4] = 10.5166; 
+          timeArray[5] = 11.5833; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.566 + 12; 
+          timeArray[8] = 2.633 + 12; 
+          timeArray[9] = 3.7 + 12; 
+          timeArray[10] = 4.766 + 12; 
+          timeArray[11] = 5.833 + 12; 
+          timeArray[12] = 6.75 + 12; 
+          break; 
+  case 10: 
+          //oct 
+          timeArray[0] = 6.5; 
+          timeArray[1] = 7.4833; 
+          timeArray[2] = 8.466; 
+          timeArray[3] = 9.45; 
+          timeArray[4] = 10.433; 
+          timeArray[5] = 11.4166; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.4833 + 12; 
+          timeArray[8] = 2.466 + 12; 
+          timeArray[9] = 3.45 + 12; 
+          timeArray[10] = 4.433 + 12; 
+          timeArray[11] = 5.4166 + 12; 
+          timeArray[12] = 6.25 + 12; 
+          break; 
+  case 11: 
+          //nov 
+          timeArray[0] = 6.5; 
+          timeArray[1] = 7.466; 
+          timeArray[2] = 8.433; 
+          timeArray[3] = 9.4; 
+          timeArray[4] = 10.366; 
+          timeArray[5] = 11.33; 
+          timeArray[6] = 12.25; 
+          //add 12 to values below 
+          timeArray[7] = 1.2166 + 12; 
+          timeArray[8] = 2.1833 + 12; 
+          timeArray[9] = 3.15 + 12; 
+          timeArray[10] = 4.1166 + 12; 
+          timeArray[11] = 5.833 + 12; 
+          timeArray[12] = 6 + 12; 
+          break; 
+  case 7: 
+          //dec 
+          timeArray[0] = 7; 
+          timeArray[1] = 7.9; 
+          timeArray[2] = 8.8; 
+          timeArray[3] = 9.7; 
+          timeArray[4] = 10.6; 
+          timeArray[5] = 11.5; 
+          timeArray[6] = 12.5; 
+          //add 12 to values below 
+          timeArray[7] = 1.4 + 12; 
+          timeArray[8] = 2.3 + 12; 
+          timeArray[9] = 3.2 + 12; 
+          timeArray[10] = 4.1 + 12; 
+          timeArray[11] = 5 + 12; 
+          timeArray[12] = 5.75 + 12; 
+          break; 
+  } 
+ var theta = 0; 
+if ( time > timeArray[ 0 ] )
+{
+    theta += 0.2416606154; 
+    if ( time > timeArray[ 1 ] )
+    {
+       theta += 0.2416606154; 
+       if ( time > timeArray[ 2 ] )
+       {
+           theta += 0.2416606154;  
+           if ( time > timeArray[ 3 ] )
+           {
+               theta+= 0.2416606154; 
+               if ( time > timeArray[ 4 ] )
+               {
+                   theta += 0.2416606154;  
+                   if ( time > timeArray[ 5 ] )
+                   {
+                       theta += 0.2416606154;  
+                       if ( time >  timeArray[ 6 ] )
+                       {
+                           theta += 0.2416606154;  
+                           if ( time > timeArray[ 7 ] )
+                           {
+                               theta += 0.2416606154; 
+                               if ( time > timeArray[ 8 ] )
+                               {
+                                   theta += 0.2416606154; 
+                                   if ( time > timeArray[ 9 ] )
+                                   {
+                                       theta += 0.2416606154; 
+                                       if ( time > timeArray[ 10 ] )
+                                       {
+                                           theta += 0.2416606154; 
+                                           if ( time > timeArray[ 11 ] )
+                                           {
+                                               theta += 0.2416606154; 
+                                               if ( time > timeArray[ 12 ] )
+                                               {
+                                                   theta = 0;
+                                               }
+                                               
+                                           }
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   }
+                   
+               }
+           }
+       }
+    }
+}
+else 
+{
+    theta = 0;
+}
+
+sunCoeff = Math.sin( theta ); 
+
+return sunCoeff;
+}
+// END getSun
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+// START Insert sunCoeff into webpage
+function getSunCoeff() {
+    document.getElementById("demo").innerHTML = getSun().toFixed(4)*100+'%'; 
+}
+// END Insert sunCoeff into webpage 
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+var efficiency = getCloud() * getSun(); 
+var panelPower = 1; //input from user 
+var area = 1; //input from user 
+var availablePower = panelPower * area * efficiency; 
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+// START Getting Cloud Cover Coef
+// Get's a set variable for cloud cover based on user selected buton
+function getCloud(){
+    var cloudCoeff =  
+    cloudCoeff = $('.cloud.btn-info').attr("data-sun")/100;
+    console.log(cloudCoeff);
+    return cloudCoeff;
+
+}
+// END Getting Cloud Cover Coef
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+// START Calculate Panel Max Power  NEED TO DEFINE COEFICENT FOR THIS
+// Get the Max Panel Power by looking for all id's that start with "panel"
+// Then if it is selected, btn-info, sum power with a modifier based on tracking
+function getMaxPanelPower(){
+    var paneltotal = 0;
+        $('[id^=panel-]').each(function() {
+            if ($(this).hasClass("btn-info")){
+                if( $(this).attr("data-tracking")=="true"){
+                    paneltotal = paneltotal + $(this).attr("data-power")*1;
+                }
+                else {
+                    paneltotal = paneltotal + $(this).attr("data-power")*.8;
+                }
+            }
+            
+        });  
+        $("#calculated-power").text(paneltotal);
+        return paneltotal;
+}
+// END Calculate Panel Max Power
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+// START Calculate Power Usage     \\\FLOATS Caused issue
+// This is only instantaneous
+function getPowerUsage(){
+    var alldayusagetotal = 0;
+        $('[id^=full-]').each(function() {
+            if ($(this).hasClass("btn-success")){
+                alldayusagetotal = alldayusagetotal + parseInt($(this).attr("data-power"));
+            }
+        });
+    var tempusagetotal = 0;    
+        $('[id^=appliance-]').each(function() {
+            if ($(this).hasClass("btn-success")){
+                tempusagetotal = tempusagetotal + parseInt($(this).attr("data-power"));
+                console.log('tempusagetotal'+tempusagetotal);
+            }
+        });
+        
+    var totalusage = parseInt(alldayusagetotal)+parseInt(tempusagetotal);
+        
+        $("#available-usage").text(totalusage);
+        
+        return totalusage;
+}
+// END Calculate Power Usage
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+// START Power Available
+function getPowerAvailable(){
+    var maxPanelPower = getMaxPanelPower();
+    var sunCoeff = getSun(); 
+    var powerUsage = getPowerUsage();
+    var cloudCoeff = getCloud();
+    
+    var powerAvailable = Math.round(maxPanelPower*sunCoeff*cloudCoeff-powerUsage);
+    if (powerAvailable<300 && powerAvailable>0){
+        $(".PowerBar").addClass("lowpower").removeClass("nopower");
+    }
+    else if (powerAvailable<=0){
+        $(".PowerBar").addClass("nopower").removeClass("lowpower");
+    }
+    else {
+        $(".PowerBar").removeClass("lowpower").removeClass("nopower");
+    }
+    console.log('maxpanelpower: '+maxPanelPower);
+    console.log('sunCoeff: '+sunCoeff);
+    console.log('powerUsage: '+powerUsage);
+    console.log('cloudCoeff: '+cloudCoeff);
+    console.log('powerAvailable: '+powerAvailable);
+    
+    
+    $("#available-power").text(powerAvailable);
+    
+}
+// END Power Available 
+
+//++++++++++++++++++++++++++++++++++++++++++++
+
+function runCalculations(){
+    //Write Sun Coeff on Page
+    getSunCoeff(); 
+        
+    //Write Max Power
+    getMaxPanelPower();
+        
+    //Write Power Usage
+    getPowerUsage();
+    
+    //Get 
+    getPowerAvailable();
+    
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++
+$('document').ready(function(){
+        
+        runCalculations();
+        
+        
+        $('.cloud').click(function(){
+            if (!$(this).hasClass( "btn-info" )){
+                $(this).toggleClass("btn-primary").toggleClass("btn-info");
+                $(this).siblings(".cloud").removeClass("btn-info").addClass("btn-primary");
+                runCalculations();
+            }
+            
+            
+        });
+        
+        $('.appliance').click(function(){
+            $(this).toggleClass("btn-default").toggleClass("btn-success");
+            runCalculations();
+            
+        });
+        
+         $('.applianceday').click(function(){
+            $(this).toggleClass("btn-default").toggleClass("btn-success");
+            runCalculations();
+            
+        });
+        
+         $('.panels').click(function(){
+            $(this).toggleClass("btn-default").toggleClass("btn-info");
+            runCalculations();
+            
+        });
+        
+        $('.PowerBar').appendTo('body')
+});
+
+
+
+
+/*
+
+kill -INT $(cat tmp/pids/server.pid)
+Use this code to kill the server
+(I had to restart it to add gems before)
+then restart it, with
+
+rails server -p 8080 -b 0.0.0.0
+
+*/
+
+</script>
+
+<style>
+    .PowerBar {
+            position: fixed;
+            width: 100%;
+            padding:10px 0;
+            background-color:rgb(161, 214, 92);
+            margin-left:0;
+            text-align:center;
+            top:56px;
+            
+    }
+    .PowerBar h2 {
+        color:white;
+        font-size:1.4em;
+        font-weight:bold;
+        letter-spacing:0px;
+        
+    }
+    .PowerBar h2 span {
+        font-weight:400;
+    }
+    .lowpower{
+         background-color:rgb(243, 189, 37);
+    }
+    .nopower{
+         background-color:#ff6464;
+    }
+    .lowerpage{
+        margin-top:60px;
+    }
+    .PowerBarContainer {
+        
+    }
+    
+</style>
+<div class="PowerBarContainer">
+    <div class="PowerBar">
+        <h2 style="display: inline">Power Available: <span id="available-power"></span> W</h2><h2 style="display: inline"> Usage: <span id="available-usage"></span> W</h2>
+    </div>
+</div>
+<div class="lowerpage">
+<h3 class="center">Cloud Coverage</h3>
+<div class="rows center">
+             <button class="btn-small btn btn-info cloud" data-sun="100" class="btn-style num-bg num first-child">Clear</button>
+             <button class="btn-small btn btn-primary cloud" data-sun="70" class="btn-style num-bg num">Partly</button>
+             <button class="btn-small btn btn-primary cloud" data-sun="20" class="btn-style num-bg num">Overcast</button>
+             <button class="btn-small btn btn-primary cloud" data-sun="10" class="btn-style opera-bg operator">Stormy</button>
+</div>
+<hr>
+<h3 class="center">Sun Coefficent</h3>
+<h5 id="demo" class="center"></h5>
+<hr>
+<h3 class="center">Panel Max Output</h3>
+<h5 class="center"><span id="calculated-power"></span> Watts</h5>
+<% @panels.all.each do |panel| %>
+    <div class="center" style="margin:10px;">
+    <button  class="center btn btn-info panels" id="panel-<%= panel.id %>" data-power="<%= panel.power %>" data-tracking="<%= panel.tracking %>">
+        <%= panel.name %>, 
+        <%= panel.power %> W
+        
+        <% if panel.tracking == 'true' %>
+         Tracking
+        <% else %>
+         
+        <% end %>
+    </button>
+    </div>
+<% end -%>
+<hr>
+<h3 class="center">All Day Appliances</h3>
+<% @appliances.all.each do |appliance| %>
+        <% if appliance.all_day %>
+        <div class="center" style="margin:10px;">
+        <button  class="center btn btn-success applianceday" id="full-appliance-<%= appliance.id %>" data-power="<%= appliance.power %>">
+        <%= appliance.name %>, 
+        <%= appliance.power %> W,
+        
+        <% end %>
+    </button>
+    </div>
+<% end -%>
+<hr>
+<h3 class="center">Temporary Appliances</h3>
+<% @appliances.all.each do |appliance| %>
+    <% if !appliance.all_day %>
+   <div class="center" style="margin:10px;">
+    <button  class="center btn btn-default appliance" id="appliance-<%= appliance.id %>" data-power="<%= appliance.power %>" data-avgtime="<%= appliance.average_time %>">
+        
+        <%= appliance.name %>, 
+        <%= appliance.power %> W,
+        <%= appliance.average_time %> min
+        
+    </button>
+    </div>
+    <% end %>
+<% end -%>
+</div>
+<!-- SUGGESTION: kill server (I restarted it) with -->
+<!-- kill -INT $(cat tmp/pids/server.pid) -->

@@ -447,26 +447,50 @@ $('document').ready(function(){
         // With JQuery
         $('#ex1').slider({
         	formatter: function(value) {
-        		return 'Current value: ' + value;
+        		return 'Current Time: ' + value + 'h';
         	}
         });
         
+        //Set starter on slider
+        var date = new Date(); 
+        var hours = date.getHours(); 
+        console.log(hours);
+        //$('#ex1').attr('aria-valuenow', hours);
+        if (hours<=12  ){
+                dim = ((12-hours)/12).toFixed(2)-.2;
+                var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
+                $('body').css('box-shadow', dimshadow);
+                
+            }
+             if (hours>12  ){
+                dim = ((hours-12)/12).toFixed(2)-.2;
+                var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
+                $('body').css('box-shadow', dimshadow);
+                
+            }
+        
+        
+        $('#ex1').slider('setValue', hours);
+        $('body').css('box-shadow', hours)
+        
+        //On Slide Event, Dim Background.
+        $("#ex1").on("slide", function(slideEvt) {
+            var dim = 1;
+             if (slideEvt.value<=12  ){
+                dim = ((12-slideEvt.value)/12).toFixed(2)-.2;
+                var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
+                $('body').css('box-shadow', dimshadow);
+                
+            }
+             if (slideEvt.value>12  ){
+                dim = ((slideEvt.value-12)/12).toFixed(2)-.2;
+                var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
+                $('body').css('box-shadow', dimshadow);
+                
+            }
+        });
         
 });
-
-
-
-
-/*
-
-kill -INT $(cat tmp/pids/server.pid)
-Use this code to kill the server
-(I had to restart it to add gems before)
-then restart it, with
-
-rails server -p 8080 -b 0.0.0.0
-
-*/
 
 </script>
 
@@ -498,10 +522,46 @@ rails server -p 8080 -b 0.0.0.0
          background-color:#ff6464;
     }
     .lowerpage{
-        margin-top:60px;
+        margin-top:10px;
+        width:100%;
+        max-width:600px;
+        margin-left: auto;
+    margin-right: auto;
+    background:rgba(255,255,255,.9);
+    padding:50px 20px;
+    
     }
     .PowerBarContainer {
         
+    }
+    .slider-handle::before {
+	line-height: 15px;
+	font-size: 30px;
+	content: '\2600'; /*unicode star character*/
+	color: yellow;
+	text-shadow:#333 2px 2px 2px;
+    }
+    .slider-handle {
+	background: transparent none;
+	/* You can customize the handle and set a background image */
+}
+
+body {
+      
+      background: url('/assets/Mars.jpg') no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+
+    }
+    
+   
+    
+    @media only screen and (max-width: 1000px) {
+      body {
+        background-size: canvas;
+      }
     }
     
 </style>
@@ -522,7 +582,7 @@ rails server -p 8080 -b 0.0.0.0
 <h3 class="center">Sun Coefficent</h3>
 <h5 id="demo" class="center"></h5>
 <div class="center">
- <input class="center" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="24" data-slider-step=".5" data-slider-value="12"/>
+ <input class="center" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="12"/>
 </div>
 <hr>
 <h3 class="center">Panel Max Output</h3>
@@ -552,7 +612,7 @@ rails server -p 8080 -b 0.0.0.0
         
         <% end %>
     </button>
-    </div>
+
 <% end -%>
 <hr>
 <h3 class="center">Temporary Appliances</h3>
@@ -570,5 +630,4 @@ rails server -p 8080 -b 0.0.0.0
     <% end %>
 <% end -%>
 </div>
-<!-- SUGGESTION: kill server (I restarted it) with -->
-<!-- kill -INT $(cat tmp/pids/server.pid) -->
+

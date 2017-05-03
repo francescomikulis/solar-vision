@@ -9,6 +9,7 @@ function getDate(){
     return {date : date, month : month};
 }
 
+// Get Current Time in Hours and Minutes
 function getCurrentTime(){
     var date = getDate().date;
     var hours = date.getHours(); 
@@ -19,20 +20,23 @@ function getCurrentTime(){
 
 
 function getSun(typeOfTime){
-
+  console.log("ToT: "+typeOfTime);
   var month = getDate().month;
   
-  if (typeOfTime = 'localTime'){
-      var time = getCurrentTime();
-      console.log('Time: '+time+' '+month);
-      
+  
+  if (typeOfTime == 'customTime'){
+     
+     var time = $('#ex1').attr('data-value');
+      console.log('Time: '+time);
   }
   else {
       var time = getCurrentTime();
+      
+      //console.log('Time: '+time+' '+month);
   }
   
   var sunCoeff; //this is the value we are solving for 
-  
+  console.log('Time2: '+time);
   var timeArray = [13]; 
   switch (month) { 
       case 1: 
@@ -333,7 +337,7 @@ return sunCoeff;
 function getCloud(){
     var cloudCoeff =  
     cloudCoeff = $('.cloud.btn-info').attr("data-sun")/100;
-    console.log(cloudCoeff);
+    //console.log(cloudCoeff);
     return cloudCoeff;
 
 }
@@ -392,10 +396,11 @@ function getPowerUsage(){
 //++++++++++++++++++++++++++++++++++++++++++++
 
 // START Power Available
-function getPowerAvailable(){
+function getPowerAvailable(typeOfTime){
     var maxPanelPower = getMaxPanelPower();
-    var sunCoeff = getSun();
-    console.log('suncoeff = '+sunCoeff);
+    
+    var sunCoeff = getSun(typeOfTime);
+    //console.log('suncoeff = '+sunCoeff);
     var powerUsage = getPowerUsage();
     var cloudCoeff = getCloud();
     
@@ -409,11 +414,11 @@ function getPowerAvailable(){
     else {
         $(".PowerBar").removeClass("lowpower").removeClass("nopower");
     }
-    console.log('maxpanelpower: '+maxPanelPower);
-    console.log('sunCoeff: '+sunCoeff);
-    console.log('powerUsage: '+powerUsage);
-    console.log('cloudCoeff: '+cloudCoeff);
-    console.log('powerAvailable: '+powerAvailable);
+    //console.log('maxpanelpower: '+maxPanelPower);
+    //console.log('sunCoeff: '+sunCoeff);
+    //console.log('powerUsage: '+powerUsage);
+   // console.log('cloudCoeff: '+cloudCoeff);
+    //console.log('powerAvailable: '+powerAvailable);
     
     
     $("#available-power").text(powerAvailable);
@@ -448,7 +453,7 @@ function runCalculations2(){
     getPowerUsage();
     
     //Get 
-    getPowerAvailable();
+    getPowerAvailable('customTime');
     
 }
 //++++++++++++++++++++++++++++++++++++++++++++
@@ -489,15 +494,18 @@ $('document').ready(function(){
         
         // With JQuery
         $('#ex1').slider({
+        	tooltip_position:'bottom',
         	formatter: function(value) {
         		return 'Current Time: ' + value + 'h';
         	}
+        	
         });
+       
         
         //Set starter on slider
         var date = new Date(); 
         var hours = date.getHours(); 
-        console.log(hours);
+        //console.log(hours);
         //$('#ex1').attr('aria-valuenow', hours);
         if (hours<=12  ){
                 dim = ((12-hours)/12).toFixed(2)-.2;
@@ -517,18 +525,21 @@ $('document').ready(function(){
         $('body').css('box-shadow', hours)
         
         //On Slide Event, Dim Background.
-        $("#ex1").on("slide", function(slideEvt) {
+        $("#ex1").on("slide slideStop", function(slideEvt) {
             var dim = 1;
              if (slideEvt.value<=12  ){
                 dim = ((12-slideEvt.value)/12).toFixed(2)-.2;
                 var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
                 $('body').css('box-shadow', dimshadow);
+                runCalculations2();
+                
                 
             }
              if (slideEvt.value>12  ){
                 dim = ((slideEvt.value-12)/12).toFixed(2)-.2;
                 var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
                 $('body').css('box-shadow', dimshadow);
+                runCalculations2();
                 
             }
         });
@@ -541,22 +552,26 @@ $('document').ready(function(){
     .PowerBar {
             position: fixed;
             width: 100%;
-            padding:10px 0;
+            padding:15px 0;
             background-color:rgb(161, 214, 92);
             margin-left:0;
             text-align:center;
             top:56px;
+            box-shadow: rgba(40,40,40,.3) 0px 5px 10px;
             
     }
     .PowerBar h2 {
         color:white;
         font-size:1.4em;
-        font-weight:bold;
-        letter-spacing:0px;
+        font-weight:300;
+        letter-spacing:.02em;
+        text-shadow: rgb(161, 183, 133) 1px 1px 2px;
+        
         
     }
     .PowerBar h2 span {
         font-weight:400;
+        
     }
     .lowpower{
          background-color:rgb(243, 189, 37);
@@ -601,12 +616,15 @@ body {
       background-size: canvas;
     }
   }
+  
+  .currentTimeLink a {color:#96b8ca; text-decoration:none;}
+  .currentTimeLink hover {color:#9aaab3; }
 </style>
 <!-- background: url('/assets/Mars.jpg') no-repeat center center fixed;  -->
 
 <div class="PowerBarContainer">ii functino e 
     <div class="PowerBar">
-        <h2 style="display: inline">Power Available: <span id="available-power"></span> W</h2><h2 style="display: inline"> Usage: <span id="available-usage"></span> W</h2>
+        <h2 style="display: inline">Power Available: <span id="available-power"></span> W</h2><h2 style="display: inline"> Usage: <span id="available-usage"></span> W <i class="fa fa-info-circle" aria-hidden="true"></i></h2>
     </div>
 </div>
 <div class="lowerpage">
@@ -622,6 +640,7 @@ body {
 <h5 id="demo" class="center"></h5>
 <div class="center">
  <input class="center" id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="12"/>
+<p class="currentTimeLink"><a id="currentTimeLink" href="#">Use Current Time</a></p>
 </div>
 <hr>
 <h3 class="center">Panel Max Output</h3>

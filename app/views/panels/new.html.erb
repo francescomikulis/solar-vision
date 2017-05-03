@@ -1,7 +1,24 @@
-<h1>New Panel</h1>
-
-<%= render 'form' %>
-
-<div class="center">
-    <%= link_to 'Back', panels_path %>
+<style>
+  body {
+    color: #000000;
+    background:  url(<%= asset_path 'Panels.jpg' %>);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  
+  html {
+    height: 100%;
+  }
+</style>
+<div class="PanelsPage">
+    <h1>New Panel</h1>
+    
+    <%= render 'form' %>
+    
+    <div class="center">
+        <%= link_to 'Back', panels_path %>
+    </div>
 </div>

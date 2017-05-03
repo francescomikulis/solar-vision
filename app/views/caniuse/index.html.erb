@@ -10,21 +10,29 @@ function getDate(){
 }
 
 function getCurrentTime(){
-    
-    var hours = getDate().date.getHours(); 
+    var date = getDate().date;
+    var hours = date.getHours(); 
     var minutes = date.getMinutes() / 60; 
-    var time = hours + minutes;     
+    var time = hours + minutes; 
+    return time;
 }
 
 
-function getSun(){
-    //Javascript code for E (efficiency coefficient) 
-  var date = new Date(); 
-  var month = date.getMonth() + 1; 
-  var hours = date.getHours(); 
-  var minutes = date.getMinutes() / 60; 
-  var time = hours + minutes; 
+function getSun(typeOfTime){
+
+  var month = getDate().month;
+  
+  if (typeOfTime = 'localTime'){
+      var time = getCurrentTime();
+      console.log('Time: '+time+' '+month);
+      
+  }
+  else {
+      var time = getCurrentTime();
+  }
+  
   var sunCoeff; //this is the value we are solving for 
+  
   var timeArray = [13]; 
   switch (month) { 
       case 1: 
@@ -293,25 +301,30 @@ else
 }
 
 sunCoeff = Math.sin( theta ); 
+console.log('sunCoeff'+sunCoeff);
+
+document.getElementById("demo").innerHTML = sunCoeff.toFixed(4)*100+'%';
 
 return sunCoeff;
+
+
 }
 // END getSun
 
 //++++++++++++++++++++++++++++++++++++++++++++
 
 // START Insert sunCoeff into webpage
-function getSunCoeff() {
-    document.getElementById("demo").innerHTML = getSun().toFixed(4)*100+'%'; 
-}
+//function getSunCoeff() {
+//    document.getElementById("demo").innerHTML = getSun().toFixed(4)*100+'%'; 
+//}
 // END Insert sunCoeff into webpage 
 
 //++++++++++++++++++++++++++++++++++++++++++++
 
-var efficiency = getCloud() * getSun(); 
-var panelPower = 1; //input from user 
-var area = 1; //input from user 
-var availablePower = panelPower * area * efficiency; 
+//var efficiency = getCloud() * getSun(); 
+//var panelPower = 1; //input from user 
+//var area = 1; //input from user 
+//var availablePower = panelPower * area * efficiency; 
 
 //++++++++++++++++++++++++++++++++++++++++++++
 
@@ -381,7 +394,8 @@ function getPowerUsage(){
 // START Power Available
 function getPowerAvailable(){
     var maxPanelPower = getMaxPanelPower();
-    var sunCoeff = getSun(); 
+    var sunCoeff = getSun();
+    console.log('suncoeff = '+sunCoeff);
     var powerUsage = getPowerUsage();
     var cloudCoeff = getCloud();
     
@@ -411,7 +425,7 @@ function getPowerAvailable(){
 
 function runCalculations(){
     //Write Sun Coeff on Page
-    getSunCoeff(); 
+    getSun('localTime'); 
         
     //Write Max Power
     getMaxPanelPower();
@@ -423,12 +437,25 @@ function runCalculations(){
     getPowerAvailable();
     
 }
-
+function runCalculations2(){
+    //Write Sun Coeff on Page
+    getSun('customTime'); 
+        
+    //Write Max Power
+    getMaxPanelPower();
+        
+    //Write Power Usage
+    getPowerUsage();
+    
+    //Get 
+    getPowerAvailable();
+    
+}
 //++++++++++++++++++++++++++++++++++++++++++++
 $('document').ready(function(){
         
         runCalculations();
-        
+        console.log(getCurrentTime());
         
         $('.cloud').click(function(){
             if (!$(this).hasClass( "btn-info" )){
@@ -633,8 +660,11 @@ body {
    <div class="center" style="margin:10px;">
     <button  class="center btn btn-default appliance" id="appliance-<%= appliance.id %>" data-power="<%= appliance.power %>" data-avgtime="<%= appliance.average_time %>">
         <%= appliance.name %>, 
-        <%= appliance.power %> W<% if appliance.average_time.blank? == false %>, <%= appliance.average_time %> min
+        <%= appliance.power %> W
+        <% if appliance.average_time.blank? == false %>
+            , <%= appliance.average_time %> min
         <% end %>
+        
     </button>
     </div>
     <% end %>

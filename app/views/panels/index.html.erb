@@ -1,35 +1,56 @@
 <% provide(:title, "Panels") %>
-
-<h1>Listing Panels</h1>
-
-<table class="panelchart">
-  <thead>
-    <tr>
-      <th class="TableHeads">Name</th>
-      <th class="TableHeads">Power(W)</th>
-      <th class="TableHeads">Tracking</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @panels.each do |panel| %>
+<style>
+  body {
+    color: #000000;
+    background: url('assets/Panels.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  h1 {
+    color: #000000;
+  }
+  
+</style>
+<div class="PanelsPage">
+  <h1>Listing Panels</h1>
+  
+  <table class="panelchart">
+    <thead>
       <tr>
-        <td class="NamePower"><%= link_to panel.name, panel %></td>
-        <td class="NamePower"><%= panel.power %></td>
-        <td class="NamePower"><%= panel.tracking %></td>
-        <td class="NamePower"><%= link_to '', edit_panel_path(panel), class: "fa fa-pencil" %></td>
-        <td class="NamePower"><%= link_to '', panel, method: :delete, data: { confirm: 'Are you sure?' }, class:"fa fa-trash" %></td>
+        <th class="TableHeads">Name</th>
+        <th class="TableHeads">Power(W)</th>
+        <th class="TableHeads">Tracking</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-</br>
-
-
-<div class="center">
-  <a class="btn btn-info btn-lg" href="panels/new">
-    New Panel
-  </a>
+    </thead>
+  
+    <tbody>
+      <% @panels.each do |panel| %>
+        <tr>
+          <td class="NamePower"><%= link_to panel.name, panel %></td>
+          <td class="NamePower"><%= panel.power %></td>
+          <td class="NamePower"><%= panel.tracking %></td>
+          <td class="NamePower"><%= link_to '', edit_panel_path(panel), class: "fa fa-pencil" %></td>
+          <td class="NamePower"><%= link_to '', panel, method: :delete, data: { confirm: 'Are you sure?' }, class:"fa fa-trash" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  </br>
+  
+  
+  <div class="center">
+    <a class="btn btn-info btn-lg" href="panels/new">
+      New Panel
+    </a>
+  </div>
 </div>

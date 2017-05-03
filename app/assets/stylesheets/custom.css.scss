@@ -401,25 +401,16 @@ span.picture {
   font-size: 130%;
 }
 
-.NameText {
-  width: 100%;
-}
-
 .TextInputs {
-  border-style: solid;
-  background-color: #eeeeee;
-  border-width: 1em;
   padding: 20px;
   width: 100%;
 }
 
 .NamePower {
   padding: 5px;
-  background-color: #eeeeee;
-  border: solid;
-  border-color: #ffffff;
   text-align: center;
   font-size: 120%;
+  border-bottom: solid;
 }
 
 .panelchart {
@@ -577,6 +568,23 @@ span.picture {
 
 .float_left {
   float: left;
+}
+
+.PanelsPage {
+  margin-top:10px;
+  width:100%;
+  max-width:600px;
+  margin-left: auto;
+  margin-right: auto;
+  background:rgba(255,255,255,.9);
+  padding-top: 10px;
+  padding-bottom: 30px;
+  border-radius: 20px;
+}
+
+.AppliancePaddingFix {
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 

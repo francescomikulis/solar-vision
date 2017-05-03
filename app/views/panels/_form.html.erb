@@ -10,22 +10,21 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="TextInputs">
+  <div class="TextInputs" class="PanelsPage">
     <div class="field">
       <%= f.label :name %><br>
-      <%= f.text_field :name, :class => 'NameText' %>
+      <%= f.text_field :name %>
     </div>
     <div class="field">
       <%= f.label :power %><br>
-      <%= f.text_field :power, :class => 'NameText' %>
+      <%= f.text_field :power %>
     </div>
     <div class="field float_left">
       <%= f.label :tracking %><br>
       <%= f.check_box :tracking %>
     </div>
-    <div class="actions">
-      <%= f.submit %>
+    <div class="actions" >
+      <%= f.submit :class => "btn btn-info btn-lg" %>
     </div>
   </div>
 <% end %>

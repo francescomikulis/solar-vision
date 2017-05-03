@@ -553,21 +553,19 @@ $('document').ready(function(){
             position: fixed;
             width: 100%;
             padding:15px 0;
+            padding-bottom: 10px;
             background-color:rgb(161, 214, 92);
             margin-left:0;
             text-align:center;
-            top:51px;
+            top:47px;
             box-shadow: rgba(40,40,40,.3) 0px 5px 10px;
-            
     }
     .PowerBar h2 {
         color:white;
-        font-size:1.4em;
+        font-size:1.5em;
         font-weight:300;
         letter-spacing:.02em;
         text-shadow: rgb(161, 183, 133) 1px 1px 2px;
-        
-        
     }
     .PowerBar h2 span {
         font-weight:400;
@@ -580,14 +578,14 @@ $('document').ready(function(){
          background-color:#ff6464;
     }
     .lowerpage{
-        margin-top:10px;
+        margin-top:45px;
         width:100%;
         max-width:600px;
         margin-left: auto;
-    margin-right: auto;
-    background:rgba(255,255,255,.9);
-    padding:50px 20px;
-    
+        margin-right: auto;
+        background:rgba(255,255,255,.9);
+        padding:5px 20px;
+        border-radius: 20px;
     }
     .PowerBarContainer {
         
@@ -615,6 +613,9 @@ body {
     body {
       background-size: canvas;
     }
+    .PowerBar h2 {
+        font-size:1.2em;
+    }
   }
   
   .currentTimeLink a {color:#96b8ca; text-decoration:none;}
@@ -630,10 +631,17 @@ body {
 <div class="lowerpage">
 <h3 class="center">Cloud Coverage</h3>
 <div class="rows center">
-             <button class="btn-small btn btn-info cloud" data-sun="100" class="btn-style num-bg num first-child">Clear</button>
-             <button class="btn-small btn btn-primary cloud" data-sun="70" class="btn-style num-bg num">Partly</button>
-             <button class="btn-small btn btn-primary cloud" data-sun="20" class="btn-style num-bg num">Overcast</button>
-             <button class="btn-small btn btn-primary cloud" data-sun="10" class="btn-style opera-bg operator">Stormy</button>
+             <div class="col-xs-1 col-sm-1 col-md-1"></div>
+             <button class="btn-small btn btn-info cloud col-xs-4 col-sm-4 col-md-4" data-sun="100" class="btn-style num-bg num first-child">Clear</button>
+             <div class="col-xs-2 col-sm-2 col-md-2"></div>
+             <button class="btn-small btn btn-primary cloud col-xs-4 col-sm-4 col-md-4" data-sun="70" class="btn-style num-bg num">Partly</button>
+             <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                 <div class="row force_spacing"></div>
+             <div class="col-xs-1 col-sm-1 col-md-1"></div>
+             <button class="btn-small btn btn-primary cloud col-xs-4 col-sm-4 col-md-4" data-sun="20" class="btn-style num-bg num">Overcast</button>
+             <div class="col-xs-2 col-sm-2 col-md-2"></div>
+             <button class="btn-small btn btn-primary cloud col-xs-4 col-sm-4 col-md-4" data-sun="10" class="btn-style opera-bg operator">Stormy</button>
+             <div class="col-xs-1 col-sm-1 col-md-1"></div>
 </div>
 <hr>
 <h3 class="center">Sun Coefficent</h3>
@@ -647,7 +655,7 @@ body {
 <h5 class="center"><span id="calculated-power"></span> Watts</h5>
 <% @panels.all.each do |panel| %>
     <div class="center" style="margin:10px;">
-    <button  class="center btn btn-info panels" id="panel-<%= panel.id %>" data-power="<%= panel.power %>" data-tracking="<%= panel.tracking %>">
+    <button class="center btn btn-info panels" id="panel-<%= panel.id %>" data-power="<%= panel.power %>" data-tracking="<%= panel.tracking %>">
         <%= panel.name %>, 
         <%= panel.power %> W
         
@@ -663,11 +671,10 @@ body {
 <h3 class="center">All Day Appliances</h3>
 <% @appliances.all.each do |appliance| %>
         <% if appliance.all_day %>
-        <div class="center" style="margin:10px;">
-        <button  class="center btn btn-success applianceday" id="full-appliance-<%= appliance.id %>" data-power="<%= appliance.power %>">
-        <%= appliance.name %>, 
-        <%= appliance.power %> W
-        
+            <div class="center" style="margin:10px;">
+            <button class="center btn btn-success applianceday" id="full-appliance-<%= appliance.id %>" data-power="<%= appliance.power %>">
+            <%= appliance.name %>, 
+            <%= appliance.power %> W
         <% end %>
     </button>
 
@@ -677,13 +684,13 @@ body {
 <% @appliances.all.each do |appliance| %>
     <% if !appliance.all_day %>
    <div class="center" style="margin:10px;">
-    <button  class="center btn btn-default appliance" id="appliance-<%= appliance.id %>" data-power="<%= appliance.power %>" data-avgtime="<%= appliance.average_time %>">
+    <button class="center btn btn-default appliance" id="appliance-<%= appliance.id %>" data-power="<%= appliance.power %>" data-avgtime="<%= appliance.average_time %>">
         <%= appliance.name %>, 
-        <%= appliance.power %> W
         <% if appliance.average_time.blank? == false %>
-            , <%= appliance.average_time %> min
+            <%= appliance.power %> W, <%= appliance.average_time %> min
+        <% else %>
+            <%= appliance.power %> W
         <% end %>
-        
     </button>
     </div>
     <% end %>

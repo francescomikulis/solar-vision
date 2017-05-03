@@ -41,7 +41,7 @@ textarea {
 }
 
 header {
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .index_panel {
@@ -517,7 +517,7 @@ span.picture {
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
     position: absolute;
-    top: 60px;
+    top: 50px;
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
@@ -533,13 +533,20 @@ span.picture {
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+    #closebtnID {
+      position: absolute;
+      top: 0px;
+      right: 25px;
+    }
 }
+
+  
 
 .white_bars {
   color: white;
   font-size: 200%;
   position: absolute;
-  top: 15px;
+  top: 14px;
   left: 20px;
 }
 

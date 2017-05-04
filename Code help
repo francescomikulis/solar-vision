@@ -1,0 +1,18 @@
+<!-- kill server -->
+<!-- kill -INT $(cat tmp/pids/server.pid) -->
+
+rails server -p 8080 -b 0.0.0.0
+
+
+git commit -am "INFO"
+git push
+
+git push heroku master
+
+heroku run rake db:migrate
+heroku restart
+
+https://github.com/francescomikulis/solar-vision
+https://agile-depths-75767.herokuapp.com/geolocation
+
+rake assets:precompile

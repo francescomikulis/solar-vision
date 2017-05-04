@@ -1,0 +1,169 @@
+<% provide(:title, "About") %>
+<h1>About</h1>
+<p>
+  <FONT COLOR="#FF00FF">
+    I am currently developing the app!
+  </FONT>
+</p>
+
+<%#= form_tag locations_path, :method => :get do %>
+  <p><%#= hidden_field_tag :latitude %>
+     <%#= hidden_field_tag :longitude %>
+     <%#= submit_tag "Search ME", :name => nil %>
+  </p>
+<%# end %>
+
+
+
+<html>
+ //https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today
+ 
+ //alert("Latitude: " + position.coords.latitude);
+ 
+ <script type="text/javascript" src="sun.js"></script>
+ <%= javascript_include_tag "sun" %>
+<%= image_tag("Mars.jpg", :alt => "test", :size => "260x180") %>
+ 
+ 
+ <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/Documents/UNH%20Projects/Spring%202017/Nasa%20Space%20Apps%20Challenge/sunShared.js"></script>
+ 
+ <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/_layouts/15/guestaccess.aspx?docid=1b25ca5963fc94ae0bd7a7e84aaf8460d&authkey=AfzHdRp8rNPdfpMVk0jkAp0"></script>
+ 
+ <script>
+  var latitude = 23.439281;
+  var longitude = -82.248350;
+
+if (navigator.geolocation) {
+   var timeoutVal = 10 * 1000 * 1000;
+   navigator.geolocation.getCurrentPosition(
+     displayPosition, 
+     displayError,
+     { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+   );
+ } else {
+   alert("Geolocation is not supported by this browser");
+ }
+
+ function displayPosition(position) {
+   //alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+   setLatitudeandLongitude( position.coords.latitude, position.coords.longitude );
+   $('input[name="latitude"]').val(position.coords.latitude);
+   $('input[name="longitude"]').val(position.coords.longitude);
+ }
+ 
+
+ function displayError(error) {
+   var errors = { 
+     1: 'Permission denied',
+     2: 'Position unavailable',
+     3: 'Request timeout'
+   };
+   alert("Error: " + errors[error.code]);
+ }
+ 
+ function setLatitudeandLongitude( numsLa, numsLo )
+ {
+     latitude = numsLa;
+     longitude = numsLo;
+ }
+ 
+    var date = new Date();
+    var month = date.getMonth() + 1;	
+    var day = date.getDay();
+    var year = date.getYear();
+    var days = setDays();
+    var pi = 3.14159265;
+    var tilt = ( 23.439281 * ( pi / 180 ) );
+    //ϕs = ((day of year-June 22 )/365)2pi
+    
+    function setDays()
+    {
+        var days = 0;
+    	if ( month > 1 ) days += 31;
+    	if ( month > 2 ) days += 28;
+    	if ( month > 3 ) days += 31;
+    	if ( month > 4 ) days += 30;
+    	if ( month > 5 ) days += 31;
+        if ( month > 6 ) days += 30;
+    	if ( month > 7 ) days += 31;
+    	if ( month > 8 ) days += 31;
+        if ( month > 9 ) days += 30;
+        if ( month > 10 ) days += 31;
+        if ( month > 11 ) days += 30;
+        if ( month > 12 ) days += 31;
+    	days += day;
+    	return days;
+	}
+	
+    function functionOne() {
+        var times = SunCalc.getTimes( date, latitude, longitude );
+        alert( "Latitude: " + latitude + ", Longitude: " + longitude + "times "
+            + times.sunrise.getHours() + " : " + times.sunrise.getMinutes() + "\n"
+            + times.sunset.getHours() + " : " + times.sunset.getMinutes() );
+        sunRiseH = times.sunrise.getHours();
+        sunRiseM = times.sunrise.getMinutes();
+        sunSetH = times.sunset.getHours();
+        sunSetM = times.sunset.getMinutes();
+        //alert( "Sunrise: " + sunRiseH + "-" + sunRiseM + ", Sunset: " + sunSetH + "-" + sunSetM );
+        
+        
+        //hours = 12;
+        //minutes = 59;
+        /*
+        month = 6;
+        day = 22;
+        days = setDays();
+        year = 2017;
+        */
+        minutes = date.getMinutes();
+        hours = date.getHours();
+        years = date.getYear();
+        
+        
+        var sunset = sunSetH + sunSetM/60;
+	    var sunrise = sunRiseH + sunRiseM/60;
+        //ϕ – ϕs = ((hour of day-12)/24)2pi //azimuth
+        var p2 = ( ( (days - 173 ) / 365 ) * 2 * pi ); //**********************
+        var angle = pi / ( sunset-sunrise );
+        var scalarForTimePast = ( ( hours + minutes/60 ) - ( sunRiseH + sunRiseM/60 ) );
+        if( scalarForTimePast > ( sunset - sunrise ) )
+            scalarForTimePast = 0;
+            
+        // WOULD FORCE THE MAX scalarForTimePast = ( sunset - sunrise ) / 2;
+        
+        var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
+        //Θ = pi/2 – latitude
+        var theta = 0;
+       
+        var tracking = false;
+        if ( tracking == true )
+        {
+            theta = Math.atan( Math.cos( tilt ) / ( Math.sin( tilt ) * Math.cos( p2 ) ) );
+        }
+        else
+        {
+            theta = ( pi/2 - ( latitude * pi / 180 ) );
+        }
+        
+        var sunCoeff = 0; //this is the value we are solving for
+        //final form = 1.36kw/m2*(s*r)
+        sunCoeff = ( ( 1 / Math.sqrt( Math.pow( Math.cos(p2), 2 ) * Math.pow( Math.cos(tilt), 2 ) + 
+        Math.pow( Math.sin(p2), 2 ) + Math.pow( Math.sin(tilt), 2 ) ) ) * ( Math.sin( theta ) * 
+        Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
+        //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
+        
+        //if( sunCoeff < 0 )
+        //    sunCoeff = 0;
+        alert("Sun - coefficient " + sunCoeff + "month: " + month + " date: " + days + " hours: " + hours + " min: " + minutes + " p1 " + p1 + " scalarForTimePast " + scalarForTimePast );
+    }
+ 
+  </script>
+  
+ <!-- displayPosition(); -->
+ 
+ 
+</html>
+
+  <div>
+     <p><a href="javascript:functionOne();">Function one</a></p>
+ </div>

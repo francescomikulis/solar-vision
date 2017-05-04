@@ -5,9 +5,10 @@
     <%= stylesheet_link_tag    'application',
                                 media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag "sun", "data-turbolinks-track" => true  %>
+    
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>
+    <script src="https://github.com/mourner/suncalc/blob/master/suncalc.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.css" />

@@ -393,7 +393,7 @@ DEPENDENCIES
   pg (= 0.17.1)
   puma (= 2.11.1)
   rails (= 4.2.2)
-  rails_12factor (= 0.0.2)
+  rails_12factor
   rails_bootstrap_navbar
   ruby-sun-times
   sass-rails (= 5.0.2)

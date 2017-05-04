@@ -1013,11 +1013,16 @@ body {
   <h3>Your Power Explained</h3>
   <hr>
   <p>
-    It's <strong>9am</strong> in <strong>Hawaii</strong>, and <strong>Partly Cloud</strong>. <br>With your <strong>960 Watts Max Panel Output</strong>, and with your <strong>Fridge</strong> & <strong>Cofee Pot</strong> on, you can safely use <strong>1 Laptop</strong> & <strong>2 CellPhones</strong> without over drawing power.<br>
+    It's <strong>9am</strong> in <strong>Hawaii</strong>, and <strong>Partly Cloud</strong>. 
+    <br>With your <strong>960 Watts Max Panel Output</strong>, and with your <strong>Fridge</strong> 
+    & <strong>Cofee Pot</strong> on, you can safely use <strong>2 Electric Kettles</strong>, 
+    <strong>2 Laptops</strong>, & <strong>6 CellPhones</strong> without over drawing power.<br>
     <div class="center">
+      <div class="powerIcons">2x<%= image_tag("coffee.png", :alt => "Coffee", :size => "50x50") %></div>
       
-      <%= image_tag("laptop.svg", :alt => "test", :size => "50x50") %>
-      <%= image_tag("phone.svg", :alt => "test", :size => "50x50") %><%= image_tag("phone.svg", :alt => "test", :size => "50x50") %>
+      <div class="powerIcons">2x <%= image_tag("laptop.png", :alt => "Laptop", :size => "50x50") %></div>
+      <div class="powerIcons">6x <%= image_tag("phone.png", :alt => "Phone", :size => "50x50") %></div>
+      
     </div>
   </p>
 </div>

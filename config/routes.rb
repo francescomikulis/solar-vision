@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get    'about'   => 'static_pages#about'
   get    'contact' => 'static_pages#contact'
   get    'geolocation'=>'static_pages#geolocation'
+  get    'geolocationTesting'=>'static_pages#geolocationTesting'
   get    'index' =>'static_pages#index'
   get    'analysis' =>'static_pages#analysis'
   get    'howitworks' =>'static_pages#howitworks'

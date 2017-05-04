@@ -14,8 +14,8 @@ function getCurrentTime(){
     var date = getDate().date;
     var hours = date.getHours(); 
     var minutes = date.getMinutes() / 60; 
-    //var time = hours + minutes; 
-    var time = 12;
+    var time = hours + minutes; 
+    //var time = 12;
     return time;
 }
 
@@ -907,8 +907,8 @@ body {
 
 .modal a.close-modal {
   position: absolute;
-  top: -12.5px;
-  right: -12.5px;
+  top: -1px;
+  right: -1px;
   display: block;
   width: 30px;
   height: 30px;
@@ -942,7 +942,7 @@ body {
 </div>
 <div class="lowerpage">
 <h3 class="center">Cloud Coverage</h3>
-<div class="rows center">
+<div class="row center">
              <div class="col-xs-1 col-sm-1 col-md-1"></div>
              <button class="btn-small btn btn-info cloud col-xs-4 col-sm-4 col-md-4" data-sun="100" class="btn-style num-bg num first-child">Clear</button>
              <div class="col-xs-2 col-sm-2 col-md-2"></div>

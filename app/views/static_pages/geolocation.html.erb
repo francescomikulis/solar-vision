@@ -16,7 +16,15 @@
 
 
 <html>
-  <script>
+ //https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today
+ 
+ //alert("Latitude: " + position.coords.latitude);
+ 
+ 
+ <script>
+  var latitude = 0;
+  var longitude = 0;
+  
 if (navigator.geolocation) {
    var timeoutVal = 10 * 1000 * 1000;
    navigator.geolocation.getCurrentPosition(
@@ -30,6 +38,7 @@ if (navigator.geolocation) {
 
  function displayPosition(position) {
    //alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+   setLatitudeandLongitude( position.coords.latitude, position.coords.longitude );
    $('input[name="latitude"]').val(position.coords.latitude);
    $('input[name="longitude"]').val(position.coords.longitude);
  }
@@ -43,5 +52,88 @@ if (navigator.geolocation) {
    };
    alert("Error: " + errors[error.code]);
  }
- </script>
+ 
+ function setLatitudeandLongitude( numsLa, numsLo )
+ {
+     latitude = numsLa;
+     longitude = numsLo;
+ }
+ 
+    //Javascript code for E (efficiency coefficient)
+    var date = new Date();
+    var month = date.getMonth() + 1;	
+    var day = date.getDay();
+    var days = setDays();
+    var pi = 3.14159265;
+    var tilt = ( 23.439281 * ( pi / 180 ) );
+    //ϕs = ((day of year-June 22 )/365)2pi
+    
+    function setDays()
+    {
+        var days = 0;
+    	if ( month > 1 ) days += 31;
+    	if ( month > 2 ) days += 28;
+    	if ( month > 3 ) days += 31;
+    	if ( month > 4 ) days += 30;
+    	if ( month > 5 ) days += 31;
+        if ( month > 6 ) days += 30;
+    	if ( month > 7 ) days += 31;
+    	if ( month > 8 ) days += 31;
+        if ( month > 9 ) days += 30;
+        if ( month > 10 ) days += 31;
+        if ( month > 11 ) days += 30;
+        if ( month > 12 ) days += 31;
+    	days += day;
+    	return days;
+	}
+	
+	function getDays()
+	{
+	    alert("Test");
+	}
+	
+	var sunset = 0;
+	var sunrise = 20;
+    //ϕ – ϕs = ((hour of day-12)/24)2pi //azimuth
+    var p2 = ( ( (days-173 ) / 365 ) * 2 * pi ); //**********************
+    var p1 = ( Math.sin( (pi ) / ( sunset-sunrise ) ) ); //*************************
+    //Θ = pi/2 – latitude
+    var theta = 0;
+   
+    var traking = false;
+    if ( tracking == true )
+    {
+        theta = Math.atan( Math.cos( tilt ) / ( Math.sin( tilt ) * Math.cos( p2 ) ) ); //***********************
+    }
+    else
+    {
+        theta = ( pi - latitude );
+    }
+    
+    var sunCoeff = 0; //this is the value we are solving for
+    //final form = 1.36kw/m2*(s*r)
+    sunCoeff = ( ( 1 / Math.sqrt( Math.pow( Math.cos(p2), 2 ) * Math.pow( Math.cos(tilt), 2 ) + 
+    Math.pow( Math.sin(p2), 2 ) + Math.pow( Math.sin(tilt), 2 ) ) ) * ( Math.sin( theta ) * 
+    Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
+    //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
+    
+
+    function functionOne() { alert( "Latitude: " + latitude + ", Longitude: " + longitude ); }
+ 
+  </script>
+  
+ <!-- displayPosition(); -->
+ 
+ 
 </html>
+
+  <div>
+     <%#= button_tag "Test", type: 'button', onclick: "getDay()", class: 'btn btn-default' do %>
+     <%# end %>
+     
+     
+     <p><a href="javascript:functionOne();">Function one</a></p>
+     <p><a href="javascript:functionTwo();">Function two</a></p>
+     <p><a href="javascript:getDays();">Function three</a></p>
+     
+ </div>

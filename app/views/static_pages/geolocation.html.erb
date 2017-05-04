@@ -20,6 +20,7 @@
  
  //alert("Latitude: " + position.coords.latitude);
  
+ <script type="text/javascript" src="sun.js"></script>
  
  <script>
   var latitude = 0;
@@ -59,10 +60,10 @@ if (navigator.geolocation) {
      longitude = numsLo;
  }
  
-    //Javascript code for E (efficiency coefficient)
     var date = new Date();
     var month = date.getMonth() + 1;	
     var day = date.getDay();
+    var year = date.getYear();
     var days = setDays();
     var pi = 3.14159265;
     var tilt = ( 23.439281 * ( pi / 180 ) );
@@ -87,38 +88,53 @@ if (navigator.geolocation) {
     	return days;
 	}
 	
-	function getDays()
-	{
-	    alert("Test");
-	}
-	
-	var sunset = 0;
-	var sunrise = 20;
-    //ϕ – ϕs = ((hour of day-12)/24)2pi //azimuth
-    var p2 = ( ( (days-173 ) / 365 ) * 2 * pi ); //**********************
-    var p1 = ( Math.sin( (pi ) / ( sunset-sunrise ) ) ); //*************************
-    //Θ = pi/2 – latitude
-    var theta = 0;
-   
-    var traking = false;
-    if ( tracking == true )
-    {
-        theta = Math.atan( Math.cos( tilt ) / ( Math.sin( tilt ) * Math.cos( p2 ) ) ); //***********************
+    function functionOne() {
+        var times = SunCalc.getTimes( date, latitude, longitude );
+        alert( "Latitude: " + latitude + ", Longitude: " + longitude + "times "
+            + times.sunrise.getHours() + " : " + times.sunrise.getMinutes() + "\n"
+            + times.sunset.getHours() + " : " + times.sunset.getMinutes() );
+        sunRiseH = times.sunrise.getHours();
+        sunRiseM = times.sunrise.getMinutes();
+        sunSetH = times.sunset.getHours();
+        sunSetM = times.sunset.getMinutes();
+        //alert( "Sunrise: " + sunRiseH + "-" + sunRiseM + ", Sunset: " + sunSetH + "-" + sunSetM );
+        
+        var sunset = sunSetH + sunSetM/60;
+	    var sunrise = sunRiseH + sunRiseM/60;
+        //ϕ – ϕs = ((hour of day-12)/24)2pi //azimuth
+        var p2 = ( ( (days-173 ) / 365 ) * 2 * pi ); //**********************
+        var angle = pi / ( sunset-sunrise );
+        var scalarForTimePast = ( ( date.getHours() + date.getMinutes()/60 ) - ( sunRiseH + sunRiseM/60 ) );
+        if( scalarForTimePast > ( sunset - sunrise ) )
+            scalarForTimePast = 0;
+            
+        // WOULD FORCE THE MAX scalarForTimePast = ( sunset - sunrise ) / 2;
+        
+        var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
+        //Θ = pi/2 – latitude
+        var theta = 0;
+       
+        var tracking = false;
+        if ( tracking == true )
+        {
+            theta = Math.atan( Math.cos( tilt ) / ( Math.sin( tilt ) * Math.cos( p2 ) ) );
+        }
+        else
+        {
+            theta = ( pi/2 - latitude );
+        }
+        
+        var sunCoeff = 0; //this is the value we are solving for
+        //final form = 1.36kw/m2*(s*r)
+        sunCoeff = ( ( 1 / Math.sqrt( Math.pow( Math.cos(p2), 2 ) * Math.pow( Math.cos(tilt), 2 ) + 
+        Math.pow( Math.sin(p2), 2 ) + Math.pow( Math.sin(tilt), 2 ) ) ) * ( Math.sin( theta ) * 
+        Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
+        //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
+        
+        //if( sunCoeff < 0 )
+        //    sunCoeff = 0;
+        alert("Sun - coefficient " + sunCoeff + " date " + date + " p1 " + p1 + " scalarForTimePast " + scalarForTimePast );
     }
-    else
-    {
-        theta = ( pi - latitude );
-    }
-    
-    var sunCoeff = 0; //this is the value we are solving for
-    //final form = 1.36kw/m2*(s*r)
-    sunCoeff = ( ( 1 / Math.sqrt( Math.pow( Math.cos(p2), 2 ) * Math.pow( Math.cos(tilt), 2 ) + 
-    Math.pow( Math.sin(p2), 2 ) + Math.pow( Math.sin(tilt), 2 ) ) ) * ( Math.sin( theta ) * 
-    Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
-    //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
-    
-
-    function functionOne() { alert( "Latitude: " + latitude + ", Longitude: " + longitude ); }
  
   </script>
   
@@ -128,12 +144,5 @@ if (navigator.geolocation) {
 </html>
 
   <div>
-     <%#= button_tag "Test", type: 'button', onclick: "getDay()", class: 'btn btn-default' do %>
-     <%# end %>
-     
-     
      <p><a href="javascript:functionOne();">Function one</a></p>
-     <p><a href="javascript:functionTwo();">Function two</a></p>
-     <p><a href="javascript:getDays();">Function three</a></p>
-     
  </div>

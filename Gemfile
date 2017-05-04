@@ -19,6 +19,7 @@ gem 'sdoc',                    '0.4.0', group: :doc
 gem 'aws-sdk'
 gem 'font-awesome-rails'
 gem 'rails_bootstrap_navbar'
+gem 'ruby-sun-times', require: 'sun_times'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

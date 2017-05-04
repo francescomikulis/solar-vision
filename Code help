@@ -3,7 +3,7 @@
 
 rails server -p 8080 -b 0.0.0.0
 
-
+git add .
 git commit -am "INFO"
 git push
 
@@ -16,3 +16,6 @@ https://github.com/francescomikulis/solar-vision
 https://agile-depths-75767.herokuapp.com/geolocation
 
 rake assets:precompile
+
+
+<div>Icons made by <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

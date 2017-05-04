@@ -30,73 +30,29 @@
  <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/_layouts/15/guestaccess.aspx?docid=1b25ca5963fc94ae0bd7a7e84aaf8460d&authkey=AfzHdRp8rNPdfpMVk0jkAp0"></script>
  
  <script>
-  var latitude = 23.439281;
-  var longitude = -82.248350;
-
-if (navigator.geolocation) {
-   var timeoutVal = 10 * 1000 * 1000;
-   navigator.geolocation.getCurrentPosition(
-     displayPosition, 
-     displayError,
-     { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-   );
- } else {
-   alert("Geolocation is not supported by this browser");
- }
-
- function displayPosition(position) {
-   //alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
-   setLatitudeandLongitude( position.coords.latitude, position.coords.longitude );
-   $('input[name="latitude"]').val(position.coords.latitude);
-   $('input[name="longitude"]').val(position.coords.longitude);
- }
- 
-
- function displayError(error) {
-   var errors = { 
-     1: 'Permission denied',
-     2: 'Position unavailable',
-     3: 'Request timeout'
-   };
-   alert("Error: " + errors[error.code]);
- }
- 
- function setLatitudeandLongitude( numsLa, numsLo )
- {
-     latitude = numsLa;
-     longitude = numsLo;
- }
- 
-    var date = new Date();
-    var month = date.getMonth() + 1;	
-    var day = date.getDay();
-    var year = date.getYear();
-    var days = setDays();
-    var pi = 3.14159265;
-    var tilt = ( 23.439281 * ( pi / 180 ) );
-    //ϕs = ((day of year-June 22 )/365)2pi
-    
-    function setDays()
-    {
-        var days = 0;
-    	if ( month > 1 ) days += 31;
-    	if ( month > 2 ) days += 28;
-    	if ( month > 3 ) days += 31;
-    	if ( month > 4 ) days += 30;
-    	if ( month > 5 ) days += 31;
-        if ( month > 6 ) days += 30;
-    	if ( month > 7 ) days += 31;
-    	if ( month > 8 ) days += 31;
-        if ( month > 9 ) days += 30;
-        if ( month > 10 ) days += 31;
-        if ( month > 11 ) days += 30;
-        if ( month > 12 ) days += 31;
-    	days += day;
-    	return days;
-	}
-	
+  var latitude = 23.439281; //best possible
+  var longitude = -82.248350; //best possible
+  
     function functionOne() {
-        var times = SunCalc.getTimes( date, latitude, longitude );
+        
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var year = date.getYear();
+        var pi = 3.14159265;
+        var tilt = ( 23.439281 * ( pi / 180 ) );
+        //ϕs = ((day of year-June 22 )/365)2pi
+        
+        latitude = parseFloat(prompt("Input latitude") );
+        longitude = parseFloat(prompt("Input longitude") );
+        hours = parseInt( prompt("Input hour") );
+        day = parseInt( prompt("Input day") );
+        month = parseInt( prompt("Input month") );
+        var days = parseInt( setDays( month, day ) );
+        minutes = parseInt( date.getMinutes() );
+        spoofDate = new Date( parseInt(year), parseInt(month),
+            parseInt(day), parseInt(hours), parseInt(minutes), 0, 0);
+        
+        var times = SunCalc.getTimes( spoofDate, latitude, longitude );
         alert( "Latitude: " + latitude + ", Longitude: " + longitude + "times "
             + times.sunrise.getHours() + " : " + times.sunrise.getMinutes() + "\n"
             + times.sunset.getHours() + " : " + times.sunset.getMinutes() );
@@ -105,20 +61,6 @@ if (navigator.geolocation) {
         sunSetH = times.sunset.getHours();
         sunSetM = times.sunset.getMinutes();
         //alert( "Sunrise: " + sunRiseH + "-" + sunRiseM + ", Sunset: " + sunSetH + "-" + sunSetM );
-        
-        
-        //hours = 12;
-        //minutes = 59;
-        /*
-        month = 6;
-        day = 22;
-        days = setDays();
-        year = 2017;
-        */
-        minutes = date.getMinutes();
-        hours = date.getHours();
-        years = date.getYear();
-        
         
         var sunset = sunSetH + sunSetM/60;
 	    var sunrise = sunRiseH + sunRiseM/60;
@@ -154,8 +96,27 @@ if (navigator.geolocation) {
         
         //if( sunCoeff < 0 )
         //    sunCoeff = 0;
-        alert("Sun - coefficient " + sunCoeff + "month: " + month + " date: " + days + " hours: " + hours + " min: " + minutes + " p1 " + p1 + " scalarForTimePast " + scalarForTimePast );
+        alert("Sun - coefficient " + sunCoeff + "month: " + month + " date: " + day + " hours: " + hours + " p1 " + p1 + " scalarForTimePast " + scalarForTimePast );
     }
+    
+    function setDays( months, d )
+    {
+        var num = 0;
+    	if ( months > 1 ) num += 31;
+    	if ( months > 2 ) num += 28;
+    	if ( months > 3 ) num += 31;
+    	if ( months > 4 ) num += 30;
+    	if ( months > 5 ) num += 31;
+        if ( months > 6 ) num += 30;
+    	if ( months > 7 ) num += 31;
+    	if ( months > 8 ) num += 31;
+        if ( months > 9 ) num += 30;
+        if ( months > 10 ) num += 31;
+        if ( months > 11 ) num += 30;
+        if ( months > 12 ) num += 31;
+    	num += parseInt( d );
+    	return num;
+	}
  
   </script>
   

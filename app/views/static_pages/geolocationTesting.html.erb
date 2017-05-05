@@ -108,6 +108,8 @@
         
         var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
         //Θ = pi/2 – latitude
+        if( p1 < 0 )
+            p1 = 0;
         var theta = 0;
        
         var tracking = false;

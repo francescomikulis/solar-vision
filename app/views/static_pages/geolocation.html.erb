@@ -1,18 +1,10 @@
 <% provide(:title, "About") %>
+</br>
+</br>
 <h1>Geolocation</h1>
 
-<%#= form_tag locations_path, :method => :get do %>
-  <p><%#= hidden_field_tag :latitude %>
-     <%#= hidden_field_tag :longitude %>
-     <%#= submit_tag "Search ME", :name => nil %>
-  </p>
-<%# end %>
-
-
-
 <html>
- 
- <%= javascript_include_tag "sun" %>
+    <%= javascript_include_tag "sun" %>
  
  
  <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/Documents/UNH%20Projects/Spring%202017/Nasa%20Space%20Apps%20Challenge/sunShared.js"></script>
@@ -153,7 +145,7 @@ if (navigator.geolocation) {
 </br>
 </br>
 
-    <div class="col-xs-2 col-md-4 "></div>
+    <div class="col-xs-3 col-md-4 "></div>
     
     <div class="col-xs-6 col-md-4 ">
         <a class="btn btn-info btn-lg index_panel" href="javascript:functionOne();">
@@ -161,4 +153,4 @@ if (navigator.geolocation) {
         </a>
     </div>
     
-    <div class="col-xs-2 col-md-4 "></div>
+    <div class="col-xs-3 col-md-4 "></div>

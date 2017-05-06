@@ -12,48 +12,46 @@
  <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/_layouts/15/guestaccess.aspx?docid=1b25ca5963fc94ae0bd7a7e84aaf8460d&authkey=AfzHdRp8rNPdfpMVk0jkAp0"></script>
  
  <script>
-  var latitude = 23.439281;
-  var longitude = -82.248350;
  
-    var date = new Date();
-    var month = date.getMonth() + 1;	
-    var day = date.getDay();
-    var year = date.getYear();
-    var days = setDays();
-    var pi = 3.14159265;
-    var tilt = ( 23.439281 * ( pi / 180 ) );
-    //ϕs = ((day of year-June 22 )/365)2pi
-    
-         latitude = parseFloat(prompt("Input latitude") );
-         longitude = parseFloat(prompt("Input longitude") );
-         month = parseInt( prompt("Input month") );
-         day = parseInt( prompt("Input day") );
-         hours = parseInt( prompt("Input hour") );
-         minutes = parseInt( prompt("Input minutes") );
-         
-         var days = parseInt( setDays( month, day ) );
-         spoofDate = new Date( parseInt(year), parseInt(month), parseInt(day), parseInt(hours), parseInt(minutes), 0, 0);
-    
-    function setDays()
+         var latitude = parseFloat(prompt("Input latitude") );
+         var longitude = parseFloat(prompt("Input longitude") );
+         var month = parseInt( prompt("Input month") );
+         var day = parseInt( prompt("Input day") );
+         var hours = parseInt( prompt("Input hour") );
+         var minutes = parseInt( prompt("Input minutes") );
+ 
+    function setDays( months, ddd )
     {
-        var days = 0;
-    	if ( month > 1 ) days += 31;
-    	if ( month > 2 ) days += 28;
-    	if ( month > 3 ) days += 31;
-    	if ( month > 4 ) days += 30;
-    	if ( month > 5 ) days += 31;
-        if ( month > 6 ) days += 30;
-    	if ( month > 7 ) days += 31;
-    	if ( month > 8 ) days += 31;
-        if ( month > 9 ) days += 30;
-        if ( month > 10 ) days += 31;
-        if ( month > 11 ) days += 30;
-        if ( month > 12 ) days += 31;
-    	days += day;
-    	return days;
+        num = 0;
+    	if ( months > 0 ) num += 31;
+    	if ( months > 1 ) num += 28;
+    	if ( months > 2 ) num += 31;
+    	if ( months > 3 ) num += 30;
+    	if ( months > 4 ) num += 31;
+        if ( months > 5 ) num += 30;
+    	if ( months > 6 ) num += 31;
+    	if ( months > 7 ) num += 31;
+        if ( months > 8 ) num += 30;
+        if ( months > 9 ) num += 31;
+        if ( months > 10 ) num += 30;
+    	num = parseInt( num ) + parseInt( ddd );
+    	return parseInt( num );
 	}
 	
     function functionOne() {
+        var pi = 3.14159265;
+        var tilt = ( 23.439281 * ( pi / 180 ) );
+        //ϕs = ((day of year-June 22 )/365)2pi
+         
+        var year = 2017;
+        var days = parseInt( setDays( month, day ) );
+        var spoofDate = new Date( parseInt(year), parseInt(month), parseInt(day), parseInt(hours), parseInt(minutes), 0, 0);
+        //var spoofDate = new Date("June 21, 2017 12:13:00");
+        
+        alert( "Latitude: " + latitude + "\n"
+            + "Longitude: " + longitude + "\n"
+            + "Date: " + spoofDate.toString() );
+        
         // this works maybe just the time zone shift is fucking it up when spoofing, somehow the return value of the api is not
         // acceptable in our time zone.
         var times = SunCalc.getTimes( spoofDate, latitude, longitude );
@@ -62,22 +60,26 @@
         sunSetH = times.sunset.getHours();
         sunSetM = times.sunset.getMinutes();
         
-        var sunset = sunSetH + sunSetM/60;
-	    var sunrise = sunRiseH + sunRiseM/60;
+        var sunset = parseFloat( sunSetH + sunSetM/60 );
+	    var sunrise = parseFloat( sunRiseH + sunRiseM/60 );
         //ϕ – ϕs = ((hour of day-12)/24)2pi //azimuth
         var p2 = ( ( (days - 173 ) / 365 ) * 2 * pi ); //**********************
         var angle = pi / ( sunset-sunrise );
-        var scalarForTimePast = ( ( hours + minutes/60 ) - ( sunset ) );
-        if( scalarForTimePast > ( sunset - sunrise ) )
+        var scalarForTimePast = parseFloat( ( parseInt( hours ) + parseFloat( minutes ) / 60 ) - ( sunset ) );
+        if( parseFloat( scalarForTimePast ) > parseFloat ( sunset - sunrise ) )
             scalarForTimePast = 0;
         //scalarForTimePast = Math.abs( scalarForTimePast );
             
         // WOULD FORCE THE MAX scalarForTimePast = ( sunset - sunrise ) / 2;
         
         var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
+        
+        if( p1 < 0 )
+            p1 = -p1;
+            
         //Θ = pi/2 – latitude
-        if( parseFloat( p1 ) < 0 )
-            p1 = 0;
+        //if( p1 < 0 )
+        //    p1 = 0;
         var theta = 0;
        
         var tracking = false;
@@ -89,6 +91,8 @@
         {
             theta = ( pi/2 - ( latitude * pi / 180 ) );
         }
+        //if( theta < 0 )
+          //  theta = -theta;
         
         var sunCoeff = 0; //this is the value we are solving for
         //final form = 1.36kw/m2*(s*r)
@@ -97,16 +101,17 @@
         Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
         //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
         
-        if( ( p1 < 0 ) || ( p1 == 0 ) )
-            sunCoeff = 0;
+        if( sunCoeff < 0 )
+            sunCoeff = -sunCoeff;
+        //if( ( p1 < 0 ) || ( p1 == 0 ) )
+        //    sunCoeff = 0;
         
         alert( "Latitude: " + latitude + "\n"
             + "Longitude: " + longitude + "\n"
             + "The sun will rise at " + times.sunrise.getHours() + ":" + times.sunrise.getMinutes() + "\n"
             + "The sun will set at " + times.sunset.getHours() + ":" + times.sunset.getMinutes() + "\n"
             + "The Sun - coefficient is: " + sunCoeff + "\n"
-            + "Selected date(M/D): " + spoofDate.getMonth() + " / " + spoofDate.getDay() + "\n"
-            + "Selected time: " + spoofDate.getHours() + ":" + spoofDate.getMinutes() + "\n"
+            + "Date: " + spoofDate.toString() + "\n"
             + "Angle1 efficency: " + p1 );
     }
   </script>

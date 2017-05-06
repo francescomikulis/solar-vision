@@ -53,28 +53,27 @@ if (navigator.geolocation) {
     var month = date.getMonth() + 1;	
     var day = date.getDay();
     var year = date.getYear();
-    var days = setDays();
+    var days = setDays( parseInt( month), parseInt( day ) );
     var pi = 3.14159265;
     var tilt = ( 23.439281 * ( pi / 180 ) );
     //ϕs = ((day of year-June 22 )/365)2pi
     
-    function setDays()
+    function setDays( months, ddd )
     {
-        var days = 0;
-    	if ( month > 1 ) days += 31;
-    	if ( month > 2 ) days += 28;
-    	if ( month > 3 ) days += 31;
-    	if ( month > 4 ) days += 30;
-    	if ( month > 5 ) days += 31;
-        if ( month > 6 ) days += 30;
-    	if ( month > 7 ) days += 31;
-    	if ( month > 8 ) days += 31;
-        if ( month > 9 ) days += 30;
-        if ( month > 10 ) days += 31;
-        if ( month > 11 ) days += 30;
-        if ( month > 12 ) days += 31;
-    	days += day;
-    	return days;
+        num = 0;
+    	if ( months > 0 ) num += 31;
+    	if ( months > 1 ) num += 28;
+    	if ( months > 2 ) num += 31;
+    	if ( months > 3 ) num += 30;
+    	if ( months > 4 ) num += 31;
+        if ( months > 5 ) num += 30;
+    	if ( months > 6 ) num += 31;
+    	if ( months > 7 ) num += 31;
+        if ( months > 8 ) num += 30;
+        if ( months > 9 ) num += 31;
+        if ( months > 10 ) num += 30;
+    	num = parseInt( num ) + parseInt( ddd );
+    	return parseInt( num );
 	}
 	
     function functionOne() {
@@ -129,8 +128,7 @@ if (navigator.geolocation) {
             + "The sun will rise at " + times.sunrise.getHours() + ":" + times.sunrise.getMinutes() + "\n"
             + "The sun will set at " + times.sunset.getHours() + ":" + times.sunset.getMinutes() + "\n"
             + "The Sun - coefficient is: " + sunCoeff + "\n"
-            + "Selected date(M/D): " + date.getMonth() + " / " + date.getDay() + "\n"
-            + "Selected time: " + date.getHours() + ":" + date.getMinutes() + "\n"
+            + date.toString()+ "\n"
             + "Angle1 efficency: " + p1 );
     }
  

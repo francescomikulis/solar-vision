@@ -2,6 +2,9 @@
 
 <script>
 
+
+localStorage.setItem('timeType','current');
+
 // Get the Current Date
 function getDate(){
     var date = new Date(); 
@@ -10,34 +13,32 @@ function getDate(){
 }
 
 // Get Current Time in Hours and Minutes
-function getCurrentTime(){
-    var date = getDate().date;
-    var hours = date.getHours(); 
-    var minutes = date.getMinutes() / 60; 
-    var time = hours + minutes; 
-    //var time = 12;
-    return time;
+function getTime(){
+    var typeOfTime = localStorage.getItem('timeType');
+    var time;
+    
+    if(typeOfTime == 'current'){
+      var date = getDate().date;
+      var hours = date.getHours(); 
+      var minutes = date.getMinutes() / 60; 
+      time = hours + minutes; 
+      
+    }
+    
+  else {
+     time = $('#ex1').attr('data-value');
+    
+  }
+  
+   return time; 
+   
 }
 
 
-function getSun(typeOfTime){
-  console.log("ToT: "+typeOfTime);
+function getSun(){
   var month = getDate().month;
-  
-  
-  if (typeOfTime == 'customTime'){
-     
-     var time = $('#ex1').attr('data-value');
-      console.log('Time: '+time);
-  }
-  else {
-      var time = getCurrentTime();
-      
-      //console.log('Time: '+time+' '+month);
-  }
-  
+  var time = getTime();
   var sunCoeff; //this is the value we are solving for 
-  console.log('Time2: '+time);
   var timeArray = [13]; 
   switch (month) { 
       case 1: 
@@ -306,9 +307,8 @@ else
 }
 
 sunCoeff = Math.sin( theta ); 
-console.log('sunCoeff'+sunCoeff);
 
-document.getElementById("demo").innerHTML = sunCoeff.toFixed(4)*100+'%';
+document.getElementById("demo").innerHTML = sunCoeff.toFixed(4)*100+'%'; //Sets SunCoeff on page
 
 return sunCoeff;
 
@@ -316,29 +316,16 @@ return sunCoeff;
 }
 // END getSun
 
-//++++++++++++++++++++++++++++++++++++++++++++
-
-// START Insert sunCoeff into webpage
-//function getSunCoeff() {
-//    document.getElementById("demo").innerHTML = getSun().toFixed(4)*100+'%'; 
-//}
-// END Insert sunCoeff into webpage 
-
-//++++++++++++++++++++++++++++++++++++++++++++
-
-//var efficiency = getCloud() * getSun(); 
-//var panelPower = 1; //input from user 
-//var area = 1; //input from user 
-//var availablePower = panelPower * area * efficiency; 
 
 //++++++++++++++++++++++++++++++++++++++++++++
 
 // START Getting Cloud Cover Coef
 // Get's a set variable for cloud cover based on user selected buton
+
 function getCloud(){
     var cloudCoeff =  
     cloudCoeff = $('.cloud.btn-info').attr("data-sun")/100;
-    //console.log(cloudCoeff);
+    
     return cloudCoeff;
 
 }
@@ -397,11 +384,10 @@ function getPowerUsage(){
 //++++++++++++++++++++++++++++++++++++++++++++
 
 // START Power Available
-function getPowerAvailable(typeOfTime){
+function getPowerAvailable(){
     var maxPanelPower = getMaxPanelPower();
     
-    var sunCoeff = getSun(typeOfTime);
-    //console.log('suncoeff = '+sunCoeff);
+    var sunCoeff = getSun();
     var powerUsage = getPowerUsage();
     var cloudCoeff = getCloud();
     
@@ -415,14 +401,12 @@ function getPowerAvailable(typeOfTime){
     else {
         $(".PowerBar").removeClass("lowpower").removeClass("nopower");
     }
-    //console.log('maxpanelpower: '+maxPanelPower);
-    //console.log('sunCoeff: '+sunCoeff);
-    //console.log('powerUsage: '+powerUsage);
-   // console.log('cloudCoeff: '+cloudCoeff);
-    //console.log('powerAvailable: '+powerAvailable);
+    
     
     
     $("#available-power").text(powerAvailable);
+    
+    return powerAvailable;
     
 }
 // END Power Available 
@@ -431,7 +415,7 @@ function getPowerAvailable(typeOfTime){
 
 function runCalculations(){
     //Write Sun Coeff on Page
-    getSun('localTime'); 
+    getSun(); 
         
     //Write Max Power
     getMaxPanelPower();
@@ -443,51 +427,41 @@ function runCalculations(){
     getPowerAvailable();
     
 }
-function runCalculations2(){
-    //Write Sun Coeff on Page
-    getSun('customTime'); 
-        
-    //Write Max Power
-    getMaxPanelPower();
-        
-    //Write Power Usage
-    getPowerUsage();
-    
-    //Get 
-    getPowerAvailable('customTime');
-    
-}
+
 //++++++++++++++++++++++++++++++++++++++++++++
 $('document').ready(function(){
         
         runCalculations();
-        console.log(getCurrentTime());
         
+       // Show which appliances could be plugged in
+        $('.fa-info-circle').click(function(){
+          getAppliances();
+        });
+        
+        // Change cloud coeff
         $('.cloud').click(function(){
             if (!$(this).hasClass( "btn-info" )){
                 $(this).toggleClass("btn-primary").toggleClass("btn-info");
                 $(this).siblings(".cloud").removeClass("btn-info").addClass("btn-primary");
-                runCalculations2();
-            }
-            
-            
+                runCalculations();
+            } 
         });
         
         $('.appliance').click(function(){
             $(this).toggleClass("btn-default").toggleClass("btn-success");
-            runCalculations2();
+            runCalculations();
             
         });
         
          $('.applianceday').click(function(){
             $(this).toggleClass("btn-default").toggleClass("btn-success");
-            runCalculations2();
+            runCalculations();
             
         });
         
          $('.panels').click(function(){
             $(this).toggleClass("btn-default").toggleClass("btn-info");
-            runCalculations2();
+            runCalculations();
             
         });
         
@@ -505,9 +479,9 @@ $('document').ready(function(){
         
         //Set starter on slider
         var date = new Date(); 
-        //var hours = date.getHours();
-        var hours = 12;
-        //console.log(hours);
+        var hours = getTime();
+       
+        
         //$('#ex1').attr('aria-valuenow', hours);
         if (hours<=12  ){
                 dim = ((12-hours)/12).toFixed(2)-.2;
@@ -529,11 +503,13 @@ $('document').ready(function(){
         //On Slide Event, Dim Background.
         $("#ex1").on("slide slideStop", function(slideEvt) {
             var dim = 1;
+            localStorage.setItem('timeType','custom');
+            
              if (slideEvt.value<=12  ){
                 dim = ((12-slideEvt.value)/12).toFixed(2)-.2;
                 var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
                 $('body').css('box-shadow', dimshadow);
-                runCalculations2();
+                runCalculations();
                 
                 
             }
@@ -541,12 +517,108 @@ $('document').ready(function(){
                 dim = ((slideEvt.value-12)/12).toFixed(2)-.2;
                 var dimshadow = 'inset 0 0 0 1000px ' + "rgba(0,0,0,"+ dim +")";
                 $('body').css('box-shadow', dimshadow);
-                runCalculations2();
+                runCalculations();
                 
             }
         });
         
 });
+
+
+
+// START Get Appliances
+
+function getAppliances(){
+  //3500 air-conditioner, 2400 washing-machine, 2000 stove, 1100 iron, 200 cofee, 85 laptop, 60 light, 50 music-player, 12 phone
+  $("#airConditioner,  #washingMachine, #stove, #iron, #coffee, #light, #laptop, #musicPlayer, #phone").addClass("hidden");
+  var appliancesToShow = 0;
+  var applianceSentence ='';
+  
+  
+  
+  
+  
+  var appliances = [
+  { "appliance": "airConditioner", "count": 0, "power":3500, "name":"Air Conditioner" },
+  { "appliance": "washingMachine", "count": 0, "power":2400, "name":"Washing Machine" },
+  { "appliance": "stove", "count": 0, "power":2000, "name":"Oven"  },
+  { "appliance": "iron", "count": 0, "power":1100,"name":"Iron"  },
+  { "appliance": "coffee", "count": 0, "power":400, "name":"Kettle"  },
+  { "appliance": "laptop", "count": 0, "power":85, "name":"Laptop"  },
+  { "appliance": "light", "count": 0, "power":60, "name":"Light"  },
+  { "appliance": "musicPlayer", "count": 0, "power":50, "name":"Stereo"  },
+  { "appliance": "phone", "count": 0, "power":12, "name":"Phone"  },
+
+  ];
+  
+  
+  
+  var powerAvailable = getPowerAvailable();
+  
+  $('#powerAvailable').text(powerAvailable+'W');
+  
+  var decimalTimeString = getTime();
+  var n = new Date(0,0);
+  n.setSeconds(+decimalTimeString * 60 * 60);
+  var timeText = n.toTimeString().slice(0, 5);
+  
+  $('#timeText').text(timeText);
+  $('#cloudText').text($('.cloud.btn-info').text());
+  
+  
+  
+  while (powerAvailable>=12){
+    $.each(appliances, function (index, appliance) {
+      
+      if(powerAvailable>appliance.power){
+      
+        appliance.count += 1;
+        powerAvailable -= appliance.power;
+        
+      }
+      
+    });
+   
+    
+  }
+  $.each(appliances, function (index, appliance) {
+      if(appliance.count>0){
+        $("#"+appliance.appliance).toggleClass("hidden");
+        $("#"+appliance.appliance+" span").text(appliance.count);
+        appliancesToShow +=1;
+      }
+  });
+  $.each(appliances, function (index, appliance) {
+      if(appliance.count>0){
+       
+        applianceSentence = applianceSentence+' <strong>'+appliance.count+' '+appliance.name;
+        
+        if(appliance.count>=2){
+          applianceSentence =  applianceSentence+'s';
+        }
+        
+        applianceSentence =  applianceSentence+'</strong>';
+        if(appliancesToShow>=3){
+          applianceSentence =  applianceSentence+', ';
+        }
+        else if (appliancesToShow == 2){
+          applianceSentence =  applianceSentence+', and ';
+        }
+        
+        appliancesToShow -= 1;
+        }
+      
+  });
+  $('#powerText').html(applianceSentence);
+  
+ 
+  
+  
+  
+  
+}
+
+// END Get Appliances
 
 ///
 (function (factory) {
@@ -777,13 +849,16 @@ $('document').ready(function(){
     return this;
   };
 
-  // Automatically bind links with rel="modal:close" to, well, close the modal.
-  $(document).on('click.modal', 'a[rel~="modal:close"]', $.modal.close);
+// Automatically bind links with rel="modal:close" to, well, close the modal.
+$(document).on('click.modal', 'a[rel~="modal:close"]', $.modal.close);
   $(document).on('click.modal', 'a[rel~="modal:open"]', function(event) {
     event.preventDefault();
     $(this).modal();
   });
 }));
+
+
+
 </script>
 
 <style>
@@ -935,7 +1010,7 @@ body {
 </style>
 <!-- background: url('/assets/Mars.jpg') no-repeat center center fixed;  -->
 
-<div class="PowerBarContainer">ii functino e 
+<div class="PowerBarContainer">
     <div class="PowerBar">
         <h2 style="display: inline">Power Available: <span id="available-power"></span> W</h2><h2 style="display: inline"> Usage: <span id="available-usage"></span> W <a href="#dialog-message" rel="modal:open"><i class="fa fa-info-circle" aria-hidden="true"></i></a></h2>
     </div>
@@ -1013,18 +1088,24 @@ body {
   <h3>Your Power Explained</h3>
   <hr>
   <p>
-    It's <strong>9am</strong> in <strong>Hawaii</strong>, and <strong>Partly Cloud</strong>. 
-    <br>With your <strong>960 Watts Max Panel Output</strong>, and with your <strong>Fridge</strong> 
-    & <strong>Cofee Pot</strong> on, you can safely use <strong>2 Electric Kettles</strong>, 
-    <strong>2 Laptops</strong>, & <strong>6 CellPhones</strong> without over drawing power.<br>
+    It's <strong><span id="timeText"></span></strong> in <strong>Hawaii</strong>, and <strong><span id="cloudText"></span></strong></strong>. 
+    <br>With your current <strong><span id="powerAvailable"></span></strong>, you can safely use <span id="powerText"></span> without over drawing power.<br>
     <div class="center">
-      <div class="powerIcons">2x<%= image_tag("coffee.png", :alt => "Coffee", :size => "50x50") %></div>
-      
-      <div class="powerIcons">2x <%= image_tag("laptop.png", :alt => "Laptop", :size => "50x50") %></div>
-      <div class="powerIcons">6x <%= image_tag("phone.png", :alt => "Phone", :size => "50x50") %></div>
+       <div id="airConditioner" class="powerIcons hidden"><span></span>x<%= image_tag("air-conditioning.png", :alt => "air-conditioner", :size => "50x50") %></div>
+      <div id="washingMachine" class="powerIcons hidden"><span></span>x<%= image_tag("washing-machine.png", :alt => "washing-machine", :size => "50x50") %></div>
+      <div id="stove" class="powerIcons hidden"><span></span>x<%= image_tag("stove.png", :alt => "Coffee", :size => "50x50") %></div>
+      <div id="iron" class="powerIcons hidden"><span></span>x<%= image_tag("iron.png", :alt => "Iron", :size => "50x50") %></div>
+      <div id="coffee" class="powerIcons hidden"><span></span>x<%= image_tag("coffee.png", :alt => "Coffee", :size => "50x50") %></div>
+       <div id="laptop" class="powerIcons hidden"><span></span>x <%= image_tag("laptop.png", :alt => "Laptop", :size => "50x50") %></div>
+       <div id="light" class="powerIcons hidden"><span></span>x <%= image_tag("light-bulb.png", :alt => "Light-Bulb", :size => "50x50") %></div>
+      <div id="musicPlayer" class="powerIcons hidden"><span>2</span>x<%= image_tag("music-player.png", :alt => "Stereo", :size => "50x50") %></div>
+       <div id="phone" class="powerIcons hidden"><span>2</span>x <%= image_tag("phone.png", :alt => "Phone", :size => "50x50") %></div>
       
     </div>
   </p>
 </div>
 </div>
-
+<script>
+console.log('Welcome to Sola-Vision. Our 2017 NASA Space Apps Challenge Prototype. More work is underway! Contact https://www.linkedin.com/in/dan-esposito-2a620516/');
+// LocalStorage control to set type of time.
+</script>

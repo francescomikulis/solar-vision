@@ -81,18 +81,6 @@
         sunRiseM = times.sunrise.getMinutes();
         sunSetH = times.sunset.getHours();
         sunSetM = times.sunset.getMinutes();
-        //alert( "Sunrise: " + sunRiseH + "-" + sunRiseM + ", Sunset: " + sunSetH + "-" + sunSetM );
-        
-        
-        //hours = 12;
-        //minutes = 59;
-        /*
-        month = 6;
-        day = 22;
-        days = setDays();
-        
-        year = 2017;
-        */
         
         var sunset = sunSetH + sunSetM/60;
 	    var sunrise = sunRiseH + sunRiseM/60;
@@ -108,7 +96,7 @@
         
         var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
         //Θ = pi/2 – latitude
-        if( p1 < 0 )
+        if( parseFloat( p1 ) < 0 )
             p1 = 0;
         var theta = 0;
        
@@ -129,10 +117,7 @@
         Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
         //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
         
-        
-        //if( parseInt(sunCoeff) < 0 )
-        //    sunCoeff = 0;
-        if( p1 == 0 )
+        if( ( p1 < 0 ) || ( p1 == 0 ) )
             sunCoeff = 0;
         
         alert("The Sun - coefficient is: " + sunCoeff + "\n"
@@ -140,11 +125,7 @@
             + "Selected time: " + hours + ":" + minutes + "\n"
             + "Angle1 efficency: " + p1 );
     }
- // HOW'S IT GOING?
   </script>
-  
- <!-- displayPosition(); -->
- 
  
 </html>
 

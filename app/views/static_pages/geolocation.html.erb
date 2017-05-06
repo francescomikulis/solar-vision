@@ -97,9 +97,10 @@ if (navigator.geolocation) {
 	
     function functionOne() {
         var times = SunCalc.getTimes( date, latitude, longitude );
-        alert( "Latitude: " + latitude + ", Longitude: " + longitude + "times "
-            + times.sunrise.getHours() + " : " + times.sunrise.getMinutes() + "\n"
-            + times.sunset.getHours() + " : " + times.sunset.getMinutes() );
+        alert( "Latitude: " + latitude + "\n"
+            + "Longitude: " + longitude + "\n"
+            + "The sun will rise at " + times.sunrise.getHours() + ":" + times.sunrise.getMinutes() + "\n"
+            + "The sun will set at " + times.sunset.getHours() + ":" + times.sunset.getMinutes() );
         sunRiseH = times.sunrise.getHours();
         sunRiseM = times.sunrise.getMinutes();
         sunSetH = times.sunset.getHours();
@@ -118,6 +119,8 @@ if (navigator.geolocation) {
         // WOULD FORCE THE MAX scalarForTimePast = ( sunset - sunrise ) / 2;
         // comment
         var p1 = ( Math.sin( scalarForTimePast * angle ) ); //*************************
+        if( parseFloat( p1 ) < 0 )
+            p1 = 0;
         //Θ = pi/2 – latitude
         var theta = 0;
        
@@ -138,9 +141,15 @@ if (navigator.geolocation) {
         Math.cos( tilt ) * p1 + ( Math.cos( theta ) * Math.cos( p2 ) * Math.sin( tilt ) ) ) ); 
         //sc = [1/√(cos2(p2)cos2(tilt)  + sin2(p2)+sin2(titl))[sin(theta)cos(tilt)p1]
         
+        if( ( p1 < 0 ) || ( p1 == 0 ) )
+            sunCoeff = 0;
+        
         //if( sunCoeff < 0 )
         //    sunCoeff = 0;
-        alert("Sun - coefficient " + sunCoeff + " date " + date + " p1 " + p1 + " scalarForTimePast " + scalarForTimePast );
+        alert("The Sun - coefficient is: " + sunCoeff + "\n"
+            + "Selected date(M/D): " + date.getMonth() + " / " + date.getDay() + "\n"
+            + "Selected time: " + date.getHours() + ":" + date.getMinutes() + "\n"
+            + "Angle1 efficency: " + p1 );
     }
  
   </script>

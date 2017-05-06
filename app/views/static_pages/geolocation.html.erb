@@ -1,10 +1,5 @@
 <% provide(:title, "About") %>
-<h1>About</h1>
-<p>
-  <FONT COLOR="#FF00FF">
-    I am currently developing the app!
-  </FONT>
-</p>
+<h1>Geolocation</h1>
 
 <%#= form_tag locations_path, :method => :get do %>
   <p><%#= hidden_field_tag :latitude %>
@@ -16,13 +11,8 @@
 
 
 <html>
- //https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today
  
- //alert("Latitude: " + position.coords.latitude);
- 
- <script type="text/javascript" src="sun.js"></script>
  <%= javascript_include_tag "sun" %>
-<%= image_tag("Mars.jpg", :alt => "test", :size => "260x180") %>
  
  
  <script type="text/javascript" src="https://wildcatsunh-my.sharepoint.com/personal/fam1001_wildcats_unh_edu/Documents/UNH%20Projects/Spring%202017/Nasa%20Space%20Apps%20Challenge/sunShared.js"></script>
@@ -97,10 +87,6 @@ if (navigator.geolocation) {
 	
     function functionOne() {
         var times = SunCalc.getTimes( date, latitude, longitude );
-        alert( "Latitude: " + latitude + "\n"
-            + "Longitude: " + longitude + "\n"
-            + "The sun will rise at " + times.sunrise.getHours() + ":" + times.sunrise.getMinutes() + "\n"
-            + "The sun will set at " + times.sunset.getHours() + ":" + times.sunset.getMinutes() );
         sunRiseH = times.sunrise.getHours();
         sunRiseM = times.sunrise.getMinutes();
         sunSetH = times.sunset.getHours();
@@ -146,7 +132,11 @@ if (navigator.geolocation) {
         
         //if( sunCoeff < 0 )
         //    sunCoeff = 0;
-        alert("The Sun - coefficient is: " + sunCoeff + "\n"
+        alert( "Latitude: " + latitude + "\n"
+            + "Longitude: " + longitude + "\n"
+            + "The sun will rise at " + times.sunrise.getHours() + ":" + times.sunrise.getMinutes() + "\n"
+            + "The sun will set at " + times.sunset.getHours() + ":" + times.sunset.getMinutes() + "\n"
+            + "The Sun - coefficient is: " + sunCoeff + "\n"
             + "Selected date(M/D): " + date.getMonth() + " / " + date.getDay() + "\n"
             + "Selected time: " + date.getHours() + ":" + date.getMinutes() + "\n"
             + "Angle1 efficency: " + p1 );
@@ -159,6 +149,16 @@ if (navigator.geolocation) {
  
 </html>
 
-  <div>
-     <p><a href="javascript:functionOne();">Function one</a></p>
- </div>
+</br>
+</br>
+</br>
+
+    <div class="col-xs-4 col-md-4 "></div>
+    
+    <div class="col-xs-4 col-md-4 ">
+        <a class="btn btn-info btn-lg index_panel" href="javascript:functionOne();">
+            Click me!
+        </a>
+    </div>
+    
+    <div class="col-xs-4 col-md-4 "></div>
